@@ -1,0 +1,18 @@
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import { Navbar } from './Navbar';
+import { Footer } from './Footer';
+import { AnimatedBackground } from '../ui/AnimatedBackground';
+
+export const AppLayout: React.FC = () => {
+  return (
+    <div className="min-h-screen flex flex-col relative selection:bg-indigo-500/30">
+      <AnimatedBackground />
+      <Navbar />
+      <main className="flex-grow pt-24">
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
+};

@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@import "tailwindcss";
+
+/* Tailwind v4: enable class-based dark mode on ancestor */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+  }
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+  }
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Inter', sans-serif;
+  }
+  body {
+    @apply bg-white text-slate-900 antialiased overflow-x-hidden transition-colors duration-300;
+  }
+  .dark body {
+    @apply bg-slate-950 text-slate-50;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/70 backdrop-blur-md border border-slate-200/60;
+  }
+  .dark .glass {
+    @apply bg-slate-900/70 border-slate-700/60;
+  }
+  .glass-card {
+    @apply bg-white backdrop-blur-xl border border-slate-200 shadow-lg rounded-2xl;
+  }
+  .dark .glass-card {
+    @apply bg-slate-900 border-slate-800 shadow-2xl;
+  }
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600;
+  }
+}
