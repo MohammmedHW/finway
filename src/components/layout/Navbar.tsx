@@ -55,19 +55,19 @@ export const Navbar: React.FC = () => {
   ];
 
   const serviceCategories = [
-    { name: 'Online Food Orders', path: '/services/food' },
-    { name: 'Grocery & Delivery', path: '/services/delivery' },
-    { name: 'Credit Cards', path: '/services/credit-cards' },
-    { name: 'Travel & Booking', path: '/services/travel' },
+    { name: 'Digital Credit Line', path: '/services/digital-credit-line' },
+    { name: 'Food Delivery', path: '/services/food-delivery' },
+    { name: 'Travel Booking', path: '/services/travel-booking' },
+    { name: 'Marketplace', path: '/services/marketplace' },
   ];
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-out
+      className={`fixed top-0 left-0 w-full z-50 backdrop-blur-xl border-b transition-[background-color,border-color,box-shadow] duration-350 ease-out
       ${
         isScrolled
-          ? 'bg-white/75 dark:bg-slate-950/70 backdrop-blur-xl shadow-lg shadow-black/5'
-          : 'bg-transparent'
+          ? 'bg-white/75 dark:bg-slate-950/70 border-slate-200/50 dark:border-slate-800/50 shadow-md shadow-black/5'
+          : 'bg-transparent border-transparent'
       }`}
     >
       <div className="container mx-auto px-4 md:px-6">
@@ -76,13 +76,13 @@ export const Navbar: React.FC = () => {
           <Link to="/" className="flex items-center gap-3 group">
             <img
               src={logo}
-              alt="Finway Logo"
+              alt="Fiinway Logo"
               className="w-10 h-10 object-contain transition-transform duration-300 group-hover:scale-105"
             />
 
             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-900 to-purple-900 dark:from-white dark:to-slate-300">
-              Finway
-              <span className="font-light">Ecosystem</span>
+              Fiinway
+             
             </span>
           </Link>
 

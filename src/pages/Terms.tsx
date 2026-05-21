@@ -11,7 +11,7 @@ export const Terms: React.FC = () => {
           <p className="text-sm text-slate-500 mb-8">Last updated: October 12, 2026</p>
           
           <h2 className="text-2xl font-bold mt-8 mb-4">1. Acceptance of Terms</h2>
-          <p className="mb-4">By accessing or using the Finway Ecosystem platform, APIs, or services, you agree to be bound by these Terms of Service and all applicable laws and regulations.</p>
+          <p className="mb-4">By accessing or using the Fiinway platform, APIs, or services, you agree to be bound by these Terms of Service and all applicable laws and regulations.</p>
           
           <h2 className="text-2xl font-bold mt-8 mb-4">2. Use License</h2>
           <p className="mb-4">Permission is granted to temporarily use our services in accordance with your subscription plan. You may not modify, reverse engineer, or create derivative works of our software.</p>

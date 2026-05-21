@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  CreditCard, Cloud, Briefcase, Shield, Smartphone, 
-  ShoppingCart, BarChart, ShoppingBag, Utensils, Zap, Wallet, Plane
+  CreditCard, Wallet, Percent, Banknote, Coins, Briefcase, GraduationCap, 
+  ArrowLeftRight, PiggyBank, Cpu, Heart, Activity, Stethoscope, ShoppingCart, 
+  Plane, Hotel, Utensils, Store, ChefHat, Leaf, Smartphone, Car, Bike, Truck, 
+  Users, BookOpen
 } from 'lucide-react';
 import { GradientText } from '../components/ui/GradientText';
 import { ServiceCard } from '../components/ui/ServiceCard';
@@ -25,112 +27,274 @@ export const Services: React.FC = () => {
 
   const allServices: ServiceItem[] = [
     {
-      title: "Online Food Orders",
-      description: "Partnered with 50,000+ premium restaurants globally for 30-minute guaranteed hot delivery.",
-      icon: <Utensils size={22} />,
-      imageUrl: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
-      tag: "Hot Delivery",
-      category: "consumer",
-      path: "/services/food"
-    },
-    {
-      title: "Grocery & Delivery",
-      description: "Fresh organic produce, dairy, and household essentials delivered in 15 minutes or less.",
-      icon: <ShoppingBag size={22} />,
-      imageUrl: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=80",
-      tag: "15-Min Delivery",
-      category: "consumer",
-      path: "/services/delivery"
-    },
-    {
-      title: "Premium Credit Cards",
-      description: "Ecosystem-integrated metal credit cards with zero joining fees and 5% airport cashbacks.",
+      title: "Digital Credit Line",
+      description: "Instant digital credit limit with real-time biometric verification and flexible dynamic repayment cycles.",
       icon: <CreditCard size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80",
+      tag: "Credit",
+      category: "financial",
+      path: "/services/digital-credit-line"
+    },
+    {
+      title: "0% Interest Credit",
+      description: "Exclusive zero-interest credit line up to 45 days on partner merchant networks and marketplace checkouts.",
+      icon: <Percent size={22} />,
       imageUrl: "https://images.unsplash.com/photo-1589758438368-0ad531db3366?w=600&q=80",
-      tag: "Credit Cards",
+      tag: "0% APR",
       category: "financial",
-      path: "/services/credit-cards"
+      path: "/services/zero-interest-credit"
     },
     {
-      title: "Financial Services",
-      description: "Instant personal loans, customized mutual funds, and smart wealth management trackers.",
-      icon: <Wallet size={22} />,
+      title: "Personal Loan",
+      description: "Hassle-free personal loans up to ₹5,00,000 with customized multi-year tenure options and low interest rates.",
+      icon: <Banknote size={22} />,
       imageUrl: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=600&q=80",
-      tag: "Wealth Hub",
+      tag: "Lending",
       category: "financial",
-      path: "/services/finance"
+      path: "/services/personal-loan"
     },
     {
-      title: "Global Payments",
-      description: "Accept and process online transactions in 135+ currencies with automated smart routing.",
-      icon: <Zap size={22} />,
-      imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
-      tag: "Pay APIs",
-      category: "enterprise",
-      path: "/services/payments"
+      title: "Instant Virtual Loan",
+      description: "Fully automated virtual loan underwriting and disbursal straight into your Finway wallet in under 120 seconds.",
+      icon: <Coins size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=600&q=80",
+      tag: "Virtual Loan",
+      category: "financial",
+      path: "/services/instant-virtual-loan"
     },
     {
-      title: "Cloud & AI Solutions",
-      description: "Secure, low-latency container hosting clusters integrated with predictive machine learning modules.",
-      icon: <Cloud size={22} />,
-      imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&q=80",
-      tag: "Infrastructure",
-      category: "enterprise",
-      path: "/services/cloud"
+      title: "Immediate Credit 15k",
+      description: "Quick emergency micro-loans of ₹15,000 for unexpected bills, with single-tap instant approval.",
+      icon: <Wallet size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=600&q=80",
+      tag: "Micro Credit",
+      category: "financial",
+      path: "/services/immediate-credit-15k"
     },
     {
-      title: "Business Logistics",
-      description: "Enterprise-grade supply chain trackers, digital manifests, and automated sorting networks.",
+      title: "Virtual Credit 50k",
+      description: "Instantly generated digital credit limit of ₹50,000 to shop online safely with rotating CVV numbers.",
+      icon: <CreditCard size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1563013544-824ae1d704d3?w=600&q=80",
+      tag: "Virtual Credit",
+      category: "financial",
+      path: "/services/virtual-credit-50k"
+    },
+    {
+      title: "Business Credit Card",
+      description: "Optimize corporate spending with premium metal commercial cards offering automated expense reporting.",
       icon: <Briefcase size={22} />,
-      imageUrl: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80",
-      tag: "Logistics",
+      imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&q=80",
+      tag: "Corporate",
       category: "enterprise",
-      path: "/services/logistics"
+      path: "/services/business-credit-card"
     },
     {
-      title: "Travel & Flights",
-      description: "Book regional flights, luxury holiday resort packages, and secure airport lounge reservations.",
+      title: "Student Credit Card",
+      description: "Build credit history early with tailored student cards featuring zero joining fees and study material rewards.",
+      icon: <GraduationCap size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80",
+      tag: "Student First",
+      category: "financial",
+      path: "/services/student-credit-card"
+    },
+    {
+      title: "International Student Card",
+      description: "Multi-currency travel and credit card for students abroad, with waived international transaction markups.",
+      icon: <GraduationCap size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&q=80",
+      tag: "Global Study",
+      category: "financial",
+      path: "/services/international-student-card"
+    },
+    {
+      title: "Transfer Cashback",
+      description: "Receive instant 1% cashback directly in your unified wallet on all domestic peer-to-peer bank transfers.",
+      icon: <ArrowLeftRight size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1556742402-f86a9fb0e0e0?w=600&q=80",
+      tag: "Cashback Reward",
+      category: "financial",
+      path: "/services/transfer-cashback"
+    },
+    {
+      title: "Saving Increment",
+      description: "Automated spare-change rounding on all daily transactions, invested directly in gold or liquid funds.",
+      icon: <PiggyBank size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1579621970795-87facc2f9040?w=600&q=80",
+      tag: "Savings",
+      category: "financial",
+      path: "/services/saving-increment"
+    },
+    {
+      title: "Payment Gateway",
+      description: "Robust checkout integration supporting UPI, NetBanking, and credit/debit cards with low merchant MDR.",
+      icon: <Cpu size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
+      tag: "Enterprise Pay",
+      category: "enterprise",
+      path: "/services/payment-gateway"
+    },
+    {
+      title: "Healthcare Cashback",
+      description: "Earn up to 10% instant rebate on medicines, clinical lab test bookings, and hospital bills.",
+      icon: <Heart size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80",
+      tag: "Wellness Promo",
+      category: "financial",
+      path: "/services/healthcare-cashback"
+    },
+    {
+      title: "Care Credit Card",
+      description: "Flexible, zero-cost health credit card designed to finance complex medical procedures and surgeries.",
+      icon: <Activity size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80",
+      tag: "Medical Credit",
+      category: "financial",
+      path: "/services/care-credit-card"
+    },
+    {
+      title: "OPD Credit Card",
+      description: "Specialized card offering instant cash-backed allowances for out-patient diagnostics and consultations.",
+      icon: <Stethoscope size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=600&q=80",
+      tag: "OPD Credit",
+      category: "financial",
+      path: "/services/opd-credit-card"
+    },
+    {
+      title: "Medicash Card",
+      description: "Tax-saving pre-paid health benefits card to purchase pharma goods and general wellness checks.",
+      icon: <Activity size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1582719478185-1ba4c6ce0e6a?w=600&q=80",
+      tag: "Prepaid Health",
+      category: "financial",
+      path: "/services/medicash-card"
+    },
+    {
+      title: "Marketplace",
+      description: "Shop electronics, fashion, and home goods directly inside the unified Finway application.",
+      icon: <ShoppingCart size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1472851294608-062f824d296e?w=600&q=80",
+      tag: "All-in-One Mall",
+      category: "consumer",
+      path: "/services/marketplace"
+    },
+    {
+      title: "Travel Booking",
+      description: "Plan entire itineraries, book national and international flights, and reserve train tickets seamlessly.",
       icon: <Plane size={22} />,
       imageUrl: "https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=600&q=80",
-      tag: "Finway Travel",
+      tag: "Travel Portal",
       category: "consumer",
-      path: "/services/travel"
+      path: "/services/travel-booking"
     },
     {
-      title: "Cybersecurity Shield",
-      description: "Zero-trust verification suites, threat detection, and automated compliance auditing.",
-      icon: <Shield size={22} />,
-      imageUrl: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&q=80",
-      tag: "SOC 2 Type II",
+      title: "Hotels",
+      description: "Book verified budget stays to luxury resorts with exclusive ecosystem loyalty cashbacks.",
+      icon: <Hotel size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80",
+      tag: "Hotel Bookings",
+      category: "consumer",
+      path: "/services/hotels"
+    },
+    {
+      title: "Food Delivery",
+      description: "Order from top-tier local restaurants with 30-minute hot delivery guarantee.",
+      icon: <Utensils size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
+      tag: "Food Delivery",
+      category: "consumer",
+      path: "/services/food-delivery"
+    },
+    {
+      title: "Campus Store",
+      description: "Student portal for textbooks, reference guides, devices, and campus merchandise.",
+      icon: <Store size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=600&q=80",
+      tag: "Campus Tech",
+      category: "consumer",
+      path: "/services/campus-store"
+    },
+    {
+      title: "Kitchen Partner",
+      description: "B2B commercial kitchen setups, supply chains, and inventory management for food creators.",
+      icon: <ChefHat size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&q=80",
+      tag: "Partner B2B",
       category: "enterprise",
-      path: "/services/security"
+      path: "/services/kitchen-partner"
     },
     {
-      title: "5G eSIM Telecommunications",
-      description: "Provision mobile data profiles and manage prepaid/postpaid recharges instantly.",
+      title: "Green Exchange",
+      description: "Trade eco-conscious carbon credits and redeem points by supporting renewable projects.",
+      icon: <Leaf size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1508780709619-79562169bc64?w=600&q=80",
+      tag: "Eco Exchange",
+      category: "consumer",
+      path: "/services/green-exchange"
+    },
+    {
+      title: "Recharge and Bills",
+      description: "Instant mobile talktime recharges, broadband subscriptions, gas, and power utility bills.",
       icon: <Smartphone size={22} />,
       imageUrl: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80",
-      tag: "Connectivity",
+      tag: "Utility Pay",
       category: "consumer",
-      path: "/services/telecom"
+      path: "/services/recharge-bills"
     },
     {
-      title: "Headless E-commerce Engine",
-      description: "Fast headless checkout architectures, shopping cart APIs, and custom storefront structures.",
-      icon: <ShoppingCart size={22} />,
-      imageUrl: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=600&q=80",
-      tag: "E-Commerce",
-      category: "enterprise",
-      path: "/services/ecommerce"
+      title: "Cab Ride",
+      description: "Instantly hail partner point-to-point city cabs with predictable, surge-free pricing models.",
+      icon: <Car size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1519183071298-a2962d1d8b1d?w=600&q=80",
+      tag: "Hail Cab",
+      category: "consumer",
+      path: "/services/cab-ride"
     },
     {
-      title: "Real-Time Data Analytics",
-      description: "Live pipeline telemetry metrics, business health reports, and user transaction dashboards.",
-      icon: <BarChart size={22} />,
-      imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
-      tag: "BI Portal",
-      category: "enterprise",
-      path: "/services/analytics"
+      title: "Bike Ride",
+      description: "Quick, micro-mobility bike sharing networks for navigating heavy city traffic congestion.",
+      icon: <Bike size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1502776679549-b1d2f9a3c7b4?w=600&q=80",
+      tag: "Micro Mobility",
+      category: "consumer",
+      path: "/services/bike-ride"
+    },
+    {
+      title: "Transport Pick and Drop",
+      description: "Reliable luggage, freight, or business inventory pick-and-drop logistics services with active tracking.",
+      icon: <Truck size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80",
+      tag: "Logistics Hub",
+      category: "consumer",
+      path: "/services/transport-pick-drop"
+    },
+    {
+      title: "Sharing Cab",
+      description: "Environmentally friendly, affordable daily carpools for regular office routes.",
+      icon: <Users size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1588345938223-e5d0e90a2e85?w=600&q=80",
+      tag: "Ride Pool",
+      category: "consumer",
+      path: "/services/sharing-cab"
+    },
+    {
+      title: "Sharing Cab (Outstation)",
+      description: "Book long-distance shared inter-city cabs for weekend travels at deeply discounted rates.",
+      icon: <Car size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1533106418989-88406c7cc4e6?w=600&q=80",
+      tag: "Outstation Pool",
+      category: "consumer",
+      path: "/services/sharing-cab-outstation"
+    },
+    {
+      title: "Scholarship Platform",
+      description: "Apply for corporate-sponsored, verified educational grant and scholarship pipelines directly.",
+      icon: <BookOpen size={22} />,
+      imageUrl: "https://images.unsplash.com/photo-1511203466129-824e631920d7?w=600&q=80",
+      tag: "Grants & Study",
+      category: "financial",
+      path: "/services/scholarship-platform"
     }
   ];
 
@@ -158,7 +322,7 @@ export const Services: React.FC = () => {
           Everything you need to <GradientText>thrive</GradientText>
         </h1>
         <p className="text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
-          From ordering your lunch or utility recharges to provisioning micro-service clusters and business logistics. Filter through our 12+ premium services.
+          From ordering food, recharging bills, booking travel, to managing credit lines – all in one place. Competitors split these services across multiple separate apps; Finway unifies them.
         </p>
       </motion.div>
 

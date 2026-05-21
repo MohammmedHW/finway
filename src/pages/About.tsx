@@ -18,7 +18,7 @@ export const About: React.FC = () => {
             Building the <GradientText>infrastructure</GradientText> of the internet economy
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-300">
-            Finway Ecosystem was founded with a simple mission: to unify the fragmented landscape of enterprise services into a single, cohesive, and beautiful platform.
+            Fiinway was founded with a simple mission: to unify the fragmented landscape of enterprise services into a single, cohesive, and beautiful platform.
           </p>
         </motion.div>
 
@@ -29,7 +29,7 @@ export const About: React.FC = () => {
             </div>
             <h3 className="text-2xl font-bold mb-4 dark:text-white">Our Mission</h3>
             <p className="text-slate-600 dark:text-slate-400">
-              To increase the GDP of the internet by providing businesses of all sizes with the essential tools they need to operate on a global scale—from payments to logistics, cloud infrastructure, and beyond.
+              To increase the GDP of the internet by providing businesses of all sizes with the essential tools they need to operate on a global scale—from consumer credit and digital cards to food delivery, travel bookings, and enterprise payment gateways.
             </p>
           </motion.div>
           <motion.div variants={fadeIn} className="glass-card p-8 rounded-3xl">

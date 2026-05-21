@@ -17,11 +17,11 @@ export const Footer: React.FC = () => {
             <Link to="/" className="flex items-center gap-2 mb-6">
                <img
               src={logo}
-              alt="Finway Logo"
+              alt="Fiinway Logo"
               className="w-10 h-10 object-contain transition-transform duration-300 group-hover:scale-105"
             />
               <span className="text-xl font-bold text-white">
-                Finway<span className="font-light">Ecosystem</span>
+                Fiinway
               </span>
             </Link>
             <p className="text-slate-400 mb-8 max-w-sm">
@@ -43,10 +43,10 @@ export const Footer: React.FC = () => {
           <div>
             <h4 className="text-white font-semibold mb-6">Services</h4>
             <ul className="flex flex-col gap-3">
-              <li><Link to="/services/payments" className="text-slate-400 hover:text-white transition-colors">Payments</Link></li>
-              <li><Link to="/services/cloud" className="text-slate-400 hover:text-white transition-colors">Cloud & AI</Link></li>
-              <li><Link to="/services/travel" className="text-slate-400 hover:text-white transition-colors">Travel Booking</Link></li>
-              <li><Link to="/services/logistics" className="text-slate-400 hover:text-white transition-colors">Logistics</Link></li>
+              <li><Link to="/services/payment-gateway" className="text-slate-400 hover:text-white transition-colors">Payment Gateway</Link></li>
+              <li><Link to="/services/digital-credit-line" className="text-slate-400 hover:text-white transition-colors">Digital Credit Line</Link></li>
+              <li><Link to="/services/travel-booking" className="text-slate-400 hover:text-white transition-colors">Travel Booking</Link></li>
+              <li><Link to="/services/transport-pick-drop" className="text-slate-400 hover:text-white transition-colors">Transport Pick and Drop</Link></li>
               <li><Link to="/services" className="text-indigo-400 hover:text-indigo-300 font-medium flex items-center gap-1 mt-2">All Services <ArrowRight size={14} /></Link></li>
             </ul>
           </div>
@@ -63,7 +63,7 @@ export const Footer: React.FC = () => {
 
           <div>
             <h4 className="text-white font-semibold mb-6">Subscribe</h4>
-            <p className="text-slate-400 mb-4 text-sm">Stay updated with our latest ecosystem news.</p>
+            <p className="text-slate-400 mb-4 text-sm">Stay updated with our latest platform news.</p>
             <form className="flex flex-col gap-3" onSubmit={(e) => e.preventDefault()}>
               <input 
                 type="email" 
@@ -78,7 +78,7 @@ export const Footer: React.FC = () => {
 
         <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-slate-500 text-sm">
-            &copy; {currentYear} Finway Ecosystem. All rights reserved.
+            &copy; {currentYear} Fiinway. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm">
             <Link to="/privacy" className="text-slate-500 hover:text-white transition-colors">Privacy Policy</Link>

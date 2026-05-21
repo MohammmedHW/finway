@@ -6,8 +6,8 @@ import { fadeIn, staggerContainer } from '../lib/animations';
 
 const faqs = [
   {
-    question: "What is the Finway Ecosystem?",
-    answer: "Finway Ecosystem is a comprehensive enterprise platform that combines global payments, cloud infrastructure, AI solutions, logistics, and more into a single unified API and dashboard experience."
+    question: "What is the Fiinway?",
+    answer: "Fiinway is a comprehensive enterprise platform that combines digital credit lines, personal loans, food delivery, travel bookings, payment gateways, and 30+ services into one unified super-app."
   },
   {
     question: "How do I get started?",

@@ -51,7 +51,7 @@ export const Contact: React.FC = () => {
             </div>
             <div>
               <h3 className="text-lg font-bold dark:text-white mb-1">Global Headquarters</h3>
-              <p className="text-slate-600 dark:text-slate-400">100 Finway Way<br />San Francisco, CA 94105<br />United States</p>
+              <p className="text-slate-600 dark:text-slate-400">100 Fiinway Way<br />San Francisco, CA 94105<br />United States</p>
             </div>
           </div>
           
@@ -71,7 +71,7 @@ export const Contact: React.FC = () => {
             </div>
             <div>
               <h3 className="text-lg font-bold dark:text-white mb-1">Email</h3>
-              <p className="text-slate-600 dark:text-slate-400">sales@Finway-ecosystem.example.com<br />support@Finway-ecosystem.example.com</p>
+              <p className="text-slate-600 dark:text-slate-400">sales@Fiinway-ecosystem.example.com<br />support@Fiinway-ecosystem.example.com</p>
             </div>
           </div>
         </motion.div>

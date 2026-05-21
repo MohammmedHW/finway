@@ -12,7 +12,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Default to light mode as requested
   const [theme, setTheme] = useState<Theme>(() => {
-    const savedTheme = localStorage.getItem('Finway-theme') as Theme;
+    const savedTheme = localStorage.getItem('Fiinway-theme') as Theme;
     return savedTheme || 'light';
   });
 
@@ -25,7 +25,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       root.classList.remove('dark');
     }
 
-    localStorage.setItem('Finway-theme', theme);
+    localStorage.setItem('Fiinway-theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {

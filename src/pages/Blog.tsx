@@ -9,7 +9,7 @@ export const Blog: React.FC = () => {
     <div className="container mx-auto px-4 md:px-6 py-20 min-h-screen">
       <motion.div variants={fadeIn} initial="hidden" animate="visible" className="text-center max-w-3xl mx-auto mb-16">
         <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6">
-          Finway <GradientText>Insights</GradientText>
+          Fiinway <GradientText>Insights</GradientText>
         </h1>
         <p className="text-xl text-slate-600 dark:text-slate-400">
           News, updates, and thoughts on the future of the internet economy.

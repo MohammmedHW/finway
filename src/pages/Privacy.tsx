@@ -11,7 +11,7 @@ export const Privacy: React.FC = () => {
           <p className="text-sm text-slate-500 mb-8">Last updated: October 12, 2026</p>
           
           <h2 className="text-2xl font-bold mt-8 mb-4">1. Introduction</h2>
-          <p className="mb-4">At Finway Ecosystem, we take your privacy seriously. This Privacy Policy describes how we collect, use, and share your personal information when you use our website, APIs, and services.</p>
+          <p className="mb-4">At Fiinway, we take your privacy seriously. This Privacy Policy describes how we collect, use, and share your personal information when you use our website, APIs, and services.</p>
           
           <h2 className="text-2xl font-bold mt-8 mb-4">2. Information We Collect</h2>
           <p className="mb-4">We collect information you provide directly to us, such as when you create or modify your account, request on-demand services, contact customer support, or otherwise communicate with us.</p>

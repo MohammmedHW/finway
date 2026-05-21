@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  CreditCard, Shield, Zap, Globe, ArrowRight, ShoppingBag, 
+  CreditCard, Zap, Globe, ArrowRight, ShoppingBag, Briefcase,
   Wallet, Utensils, Truck, Plane, Smartphone, Heart, 
-  Home as HomeIcon, GraduationCap, Fuel, Wifi, Monitor, Lock,
+  Home as HomeIcon, GraduationCap, Wifi, Monitor, Lock,
   TrendingUp, Users, Star, CheckCircle, Award, Clock, MapPin,
-  ChevronDown, ChevronUp, Send, Check, Bell
+  ChevronDown, ChevronUp, Send, Check, Bell,
+  Percent, Banknote, Coins, ArrowLeftRight, PiggyBank, Cpu, BookOpen,
+  ShoppingCart
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
@@ -16,102 +18,102 @@ import { fadeIn, staggerContainer, floatAnimation } from '../lib/animations';
 
 /* ───────────────────── data ───────────────────── */
 const servicesList = [
-  { 
-    title: 'Online Food Orders', 
-    desc: 'Order from 50,000+ restaurants with 30-min delivery guarantee.', 
-    icon: <Utensils size={24} />, 
-    imageUrl: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80',
-    tag: 'Food Delivery',
-    path: '/services/food'
+  {
+    title: "Digital Credit Line",
+    desc: "Instant digital credit limit with real-time biometric verification and flexible dynamic repayment cycles.",
+    icon: <CreditCard size={24} />,
+    imageUrl: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80",
+    tag: "Credit",
+    path: "/services/digital-credit-line"
   },
-  { 
-    title: 'Grocery & Essentials', 
-    desc: 'Fresh produce, dairy & pantry essentials delivered in 15 minutes.', 
-    icon: <ShoppingBag size={24} />, 
-    imageUrl: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=80',
-    tag: 'Quick Delivery',
-    path: '/services/delivery'
+  {
+    title: "0% Interest Credit",
+    desc: "Exclusive zero-interest credit line up to 45 days on partner merchant networks and marketplace checkouts.",
+    icon: <Percent size={24} />,
+    imageUrl: "https://images.unsplash.com/photo-1589758438368-0ad531db3366?w=600&q=80",
+    tag: "0% APR",
+    path: "/services/zero-interest-credit"
   },
-  { 
-    title: 'Credit Cards', 
-    desc: 'Premium metal credit cards with 5% cashback & airport lounge access.', 
-    icon: <CreditCard size={24} />, 
-    imageUrl: 'https://images.unsplash.com/photo-1589758438368-0ad531db3366?w=600&q=80',
-    tag: 'Credit Cards',
-    path: '/services/credit-cards'
+  {
+    title: "Personal Loan",
+    desc: "Hassle-free personal loans up to ₹5,00,000 with customized multi-year tenure options and low interest rates.",
+    icon: <Banknote size={24} />,
+    imageUrl: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=600&q=80",
+    tag: "Lending",
+    path: "/services/personal-loan"
   },
-  { 
-    title: 'Financial Services', 
-    desc: 'Personal loans, mutual funds & wealth management tools.', 
-    icon: <Wallet size={24} />, 
-    imageUrl: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=600&q=80',
-    tag: 'Wealth Hub',
-    path: '/services/finance'
+  {
+    title: "Instant Virtual Loan",
+    desc: "Fully automated virtual loan underwriting and disbursal straight into your Finway wallet in under 120 seconds.",
+    icon: <Coins size={24} />,
+    imageUrl: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=600&q=80",
+    tag: "Virtual Loan",
+    path: "/services/instant-virtual-loan"
   },
-  { 
-    title: 'Travel & Booking', 
-    desc: 'Book flights, hotels & holiday packages at the best prices.', 
-    icon: <Plane size={24} />, 
-    imageUrl: 'https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=600&q=80',
-    tag: 'Travel',
-    path: '/services/travel'
+  {
+    title: "Immediate Credit 15k",
+    desc: "Quick emergency micro-loans of ₹15,000 for unexpected bills, with single-tap instant approval.",
+    icon: <Wallet size={24} />,
+    imageUrl: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=600&q=80",
+    tag: "Micro Credit",
+    path: "/services/immediate-credit-15k"
   },
-  { 
-    title: 'Courier & Logistics', 
-    desc: 'Same-day delivery & real-time package tracking nationwide.', 
-    icon: <Truck size={24} />, 
-    imageUrl: 'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=600&q=80',
-    tag: 'Logistics',
-    path: '/services/logistics'
+  {
+    title: "Virtual Credit 50k",
+    desc: "Instantly generated digital credit limit of ₹50,000 to shop online safely with rotating CVV numbers.",
+    icon: <CreditCard size={24} />,
+    imageUrl: "https://images.unsplash.com/photo-1563013544-824ae1d704d3?w=600&q=80",
+    tag: "Virtual Credit",
+    path: "/services/virtual-credit-50k"
   },
-  { 
-    title: 'Healthcare Portal', 
-    desc: 'Online consultations, medicine delivery & digital health records.', 
-    icon: <Heart size={24} />, 
-    imageUrl: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80',
-    tag: 'Healthcare',
-    path: '/services/security' // Core portal
+  {
+    title: "Business Credit Card",
+    desc: "Optimize corporate spending with premium metal commercial cards offering automated expense reporting.",
+    icon: <Briefcase size={24} />,
+    imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&q=80",
+    tag: "Corporate",
+    path: "/services/business-credit-card"
   },
-  { 
-    title: 'Skill & Education', 
-    desc: 'Live masterclasses, certifications & skill-building courses.', 
-    icon: <GraduationCap size={24} />, 
-    imageUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80',
-    tag: 'EdTech',
-    path: '/services/cloud'
+  {
+    title: "Student Credit Card",
+    desc: "Build credit history early with tailored student cards featuring zero joining fees and study material rewards.",
+    icon: <GraduationCap size={24} />,
+    imageUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80",
+    tag: "Student First",
+    path: "/services/student-credit-card"
   },
-  { 
-    title: 'EV Charging Network', 
-    desc: 'Locate stations, reserve slots & pay digitally.', 
-    icon: <Fuel size={24} />, 
-    imageUrl: 'https://images.unsplash.com/photo-1563720223185-11003d516935?w=600&q=80',
-    tag: 'E-Mobility',
-    path: '/services/telecom'
+  {
+    title: "Transfer Cashback",
+    desc: "Receive instant 1% cashback directly in your unified wallet on all domestic peer-to-peer bank transfers.",
+    icon: <ArrowLeftRight size={24} />,
+    imageUrl: "https://images.unsplash.com/photo-1556742402-f86a9fb0e0e0?w=600&q=80",
+    tag: "Cashback Reward",
+    path: "/services/transfer-cashback"
   },
-  { 
-    title: 'Premium Real Estate', 
-    desc: 'Buy, sell or rent verified listings with zero brokerage fees.', 
-    icon: <HomeIcon size={24} />, 
-    imageUrl: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80',
-    tag: 'PropTech',
-    path: '/services/ecommerce'
+  {
+    title: "Saving Increment",
+    desc: "Automated spare-change rounding on all daily transactions, invested directly in gold or liquid funds.",
+    icon: <PiggyBank size={24} />,
+    imageUrl: "https://images.unsplash.com/photo-1579621970795-87facc2f9040?w=600&q=80",
+    tag: "Savings",
+    path: "/services/saving-increment"
   },
-  { 
-    title: 'Utilities & Recharge', 
-    desc: 'Instant mobile recharges, utility bill payments & rewards.', 
-    icon: <Smartphone size={24} />, 
-    imageUrl: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80',
-    tag: 'Utility',
-    path: '/services/telecom'
+  {
+    title: "Payment Gateway",
+    desc: "Robust checkout integration supporting UPI, NetBanking, and credit/debit cards with low merchant MDR.",
+    icon: <Cpu size={24} />,
+    imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
+    tag: "Enterprise Pay",
+    path: "/services/payment-gateway"
   },
-  { 
-    title: 'Cybersecurity Suite', 
-    desc: 'Enterprise-grade threat protection, firewalls & data encryption.', 
-    icon: <Shield size={24} />, 
-    imageUrl: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&q=80',
-    tag: 'Security',
-    path: '/services/security'
-  },
+  {
+    title: "Scholarship Platform",
+    desc: "Apply for corporate-sponsored, verified educational grant and scholarship pipelines directly.",
+    icon: <BookOpen size={24} />,
+    imageUrl: "https://images.unsplash.com/photo-1511203466129-824e631920d7?w=600&q=80",
+    tag: "Grants & Study",
+    path: "/services/scholarship-platform"
+  }
 ];
 
 const stats = [
@@ -122,16 +124,16 @@ const stats = [
 ];
 
 const comparisonPoints = [
-  { feature: "Ecosystem Integration", traditional: "12+ different apps, passwords & KYC", Finway: "Single sign-on, unified data & security" },
-  { feature: "Loyalty Points", traditional: "Scattered points, 90% expiry rate", Finway: "Unified Finway Coins (1 Coin = ₹1)" },
-  { feature: "App Size on Device", traditional: "Over 2.5 GB of device storage used", Finway: "Fully streamlined 85 MB package size" },
-  { feature: "Processing Fees", traditional: "Convenience charges & gate percentages", Finway: "Zero hidden charges, direct routing" },
-  { feature: "Ecosystem Security", traditional: "Varying safety compliance per app", Finway: "SOC 2 Type II, 256-bit secure end-to-end" },
-  { feature: "Customer Support", traditional: "Multiple phone lines, days of delays", Finway: "24/7 Unified Helpdesk with AI Assistant" }
+  { feature: "Ecosystem Integration", traditional: "12+ different apps, passwords & KYC", Fiinway: "Single sign-on, unified data & security" },
+  { feature: "Loyalty Points", traditional: "Scattered points, 90% expiry rate", Fiinway: "Unified Fiinway Coins (1 Coin = ₹1)" },
+  { feature: "App Size on Device", traditional: "Over 2.5 GB of device storage used", Fiinway: "Fully streamlined 85 MB package size" },
+  { feature: "Processing Fees", traditional: "Convenience charges & gate percentages", Fiinway: "Zero hidden charges, direct routing" },
+  { feature: "Ecosystem Security", traditional: "Varying safety compliance per app", Fiinway: "SOC 2 Type II, 256-bit secure end-to-end" },
+  { feature: "Customer Support", traditional: "Multiple phone lines, days of delays", Fiinway: "24/7 Unified Helpdesk with AI Assistant" }
 ];
 
 const onboardingSteps = [
-  { number: "01", title: "Create One Account", desc: "Download the Finway app and do a simple secure verification using device biometrics." },
+  { number: "01", title: "Create One Account", desc: "Download the Fiinway app and do a simple secure verification using device biometrics." },
   { number: "02", title: "Choose Modules", desc: "Configure your dashboard homepage. Hide or pin services according to your daily needs." },
   { number: "03", title: "Link Wallet & Cards", desc: "Connect your bank accounts or apply for our premium zero-annual-fee metal credit card." },
   { number: "04", title: "Scale and Earn", desc: "Transact seamlessly, earn unified cashback coins, or toggle business services for enterprise." }
@@ -139,30 +141,30 @@ const onboardingSteps = [
 
 const faqs = [
   {
-    q: "Is the Finway Credit Card really zero-fee?",
+    q: "Is the Fiinway Credit Card really zero-fee?",
     a: "Yes! There are no joining or hidden annual fees for the first 12 months. Starting year two, the nominal fee is waived automatically if you spend over ₹1,50,000 annually across the ecosystem."
   },
   {
-    q: "How does the 15-minute grocery delivery guarantee operate?",
-    a: "We operate a network of hyper-local dark stores equipped with automated sorting technology. Once checked out, the order is packed within 2 minutes and a partner rider is automatically dispatched on an AI-optimized route."
+    q: "How does the Food Delivery or Campus Store purchase work?",
+    a: "All merchant orders, from hot food delivery to student books, are processed inside the Finway app. Transactions are backed by your digital credit line or virtual cards, meaning you checkout in a single tap without switching apps."
   },
   {
     q: "Can I manage both my consumer services and business logistics on the same app?",
-    a: "Absolutely! Finway has a Profile Selector. Toggle between 'Personal Profile' (for food, travel, cards, EV stations) and 'Enterprise Console' (for logistics tracking, payroll, cloud databases, business APIs) instantly."
+    a: "Absolutely! Fiinway has a Profile Selector. Toggle between 'Personal Profile' (for food delivery, travel booking, marketplace, student credit card) and 'Enterprise Console' (for payment gateway, kitchen partner, business credit card, transport pick and drop) instantly. While competitors force you to download and manage 10+ different apps for these services, Finway brings everything under one unified dashboard."
   },
   {
-    q: "What security compliance does Finway possess?",
-    a: "Finway is a fully certified SOC 2 Type II enterprise platform. We adhere to PCI-DSS Level 1 compliance for payments, secure data at rest with AES-256 encryption, and run continuous automated vulnerability threat detection."
+    q: "What security compliance does Fiinway possess?",
+    a: "Fiinway is a fully certified SOC 2 Type II enterprise platform. We adhere to PCI-DSS Level 1 compliance for payments, secure data at rest with AES-256 encryption, and run continuous automated vulnerability threat detection."
   },
   {
-    q: "Where can I spend the Finway Coins I earn?",
-    a: "Every transaction across any ecosystem service (e.g. charging your car, buying flight tickets, or ordering meals) earns you Finway Coins. 1 Coin is equal to ₹1. You can redeem coins directly at checkout on any service."
+    q: "Where can I spend the Fiinway Coins I earn?",
+    a: "Every transaction across any ecosystem service (e.g. booking travel, ordering food, recharging bills, or buying campus study materials) earns you Fiinway Coins. 1 Coin is equal to ₹1. You can redeem coins directly at checkout on any service."
   }
 ];
 
 const blogs = [
   {
-    title: "Scaling Fintech: How Finway Reached 12 Million Users",
+    title: "Scaling Fintech: How Fiinway Reached 12 Million Users",
     desc: "A deep dive into our core architectural decisions, micro-frontends structure, and real-time database clusters.",
     img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
     date: "May 18, 2026",
@@ -171,7 +173,7 @@ const blogs = [
   },
   {
     title: "The Future of Hyper-local Commerce & AI Routing",
-    desc: "How we reduced our average grocery delivery time to 12.8 minutes using machine learning predictive inventory.",
+    desc: "How we optimized our unified logistics and transport pick-and-drop routing using machine learning predictive algorithms.",
     img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80",
     date: "May 12, 2026",
     readTime: "7 min read",
@@ -179,7 +181,7 @@ const blogs = [
   },
   {
     title: "Designing for Dark Mode: Premium HSL Color Spaces",
-    desc: "Exploring the engineering and design choices behind the Finway fluid theme toggle and glassmorphic micro-layouts.",
+    desc: "Exploring the engineering and design choices behind the Fiinway fluid theme toggle and glassmorphic micro-layouts.",
     img: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=600&q=80",
     date: "May 05, 2026",
     readTime: "4 min read",
@@ -188,7 +190,7 @@ const blogs = [
 ];
 
 const testimonials = [
-  { name: 'Priya Sharma', role: 'CEO, TechVentures', text: 'Finway transformed our payment infrastructure. Transaction failures dropped by 90% within the first month.', rating: 5 },
+  { name: 'Priya Sharma', role: 'CEO, TechVentures', text: 'Fiinway transformed our payment infrastructure. Transaction failures dropped by 90% within the first month.', rating: 5 },
   { name: 'Rahul Mehta', role: 'Founder, QuickBite', text: 'The food delivery integration is seamless. Our restaurant onboarding time went from 2 weeks to 2 days.', rating: 5 },
   { name: 'Sarah Johnson', role: 'CFO, GlobalRetail', text: 'The financial analytics dashboard gives us real-time insights that used to take our team days to compile.', rating: 5 },
 ];
@@ -246,7 +248,7 @@ export const Home: React.FC = () => {
               </motion.h1>
 
               <motion.p variants={fadeIn} className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-10 max-w-xl leading-relaxed">
-                From ordering dinner and booking flights to managing credit cards and scaling your enterprise — Finway Ecosystem is the all-in-one platform powering 12 million+ users across 40 countries.
+                From ordering dinner and booking flights to managing credit cards and scaling your enterprise — Fiinway is the all-in-one platform powering 12 million+ users across 40 countries.
               </motion.p>
 
               <motion.div variants={fadeIn} className="flex flex-wrap items-center gap-4">
@@ -273,7 +275,7 @@ export const Home: React.FC = () => {
                   <div className="flex items-center gap-3">
                     <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white"><CreditCard size={20} /></div>
                     <div>
-                      <p className="text-sm font-bold text-slate-900 dark:text-white">Finway Platinum Card</p>
+                      <p className="text-sm font-bold text-slate-900 dark:text-white">Fiinway Platinum Card</p>
                       <p className="text-xs text-slate-500 dark:text-slate-400">Credit Limit</p>
                     </div>
                   </div>
@@ -403,16 +405,16 @@ export const Home: React.FC = () => {
               Your Daily Cores, <span className="text-gradient bg-gradient-to-r from-orange-500 to-red-500">Accelerated.</span>
             </h2>
             <p className="text-lg text-slate-600 dark:text-slate-400">
-              Hot meals, fresh organic grocery shopping, prescriptions, and instant packages delivered to you within minutes using premium, full-bleed visual cards.
+              Hot meals, all-in-one marketplace shopping, mobile recharges, and transport pick-and-drop services delivered to you seamlessly inside our unified ecosystem.
             </p>
           </motion.div>
 
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { title: 'Restaurant Food Delivery', img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80', tag: '30 min guaranteed', icon: <Utensils size={18} /> },
-              { title: 'Fresh Organic Groceries', img: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&q=80', tag: '15 min delivery', icon: <ShoppingBag size={18} /> },
-              { title: 'On-Demand Pharmacy', img: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&q=80', tag: '24/7 delivery', icon: <Heart size={18} /> },
-              { title: 'Ecosystem Flash Courier', img: 'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=600&q=80', tag: 'Local Courier', icon: <Truck size={18} /> },
+              { title: 'Food Delivery', img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80', tag: '30 min delivery', icon: <Utensils size={18} /> },
+              { title: 'Marketplace', img: 'https://images.unsplash.com/photo-1472851294608-062f824d296e?w=600&q=80', tag: 'All-in-one store', icon: <ShoppingCart size={18} /> },
+              { title: 'Recharge and Bills', img: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80', tag: 'Utility Pay', icon: <Smartphone size={18} /> },
+              { title: 'Transport Pick and Drop', img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80', tag: 'Instant Pickup', icon: <Truck size={18} /> },
             ].map((item, i) => (
               <motion.div key={i} variants={fadeIn}>
                 <ImageCard 
@@ -573,7 +575,7 @@ export const Home: React.FC = () => {
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="text-center max-w-3xl mx-auto mb-16">
             <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 text-sm font-semibold mb-4">THE COMPARISON</span>
             <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-6">
-              How Finway Compares
+              How Fiinway Compares
             </h2>
             <p className="text-lg text-slate-600 dark:text-slate-400">See how switching to a unified ecosystem improves device storage, checkout times, and cashback efficiencies.</p>
           </motion.div>
@@ -584,7 +586,7 @@ export const Home: React.FC = () => {
                 <tr className="bg-slate-100 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700">
                   <th className="p-6 font-bold text-slate-800 dark:text-slate-200">Comparison Feature</th>
                   <th className="p-6 font-bold text-slate-500 dark:text-slate-400">Traditional / Standalone Apps</th>
-                  <th className="p-6 font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50/50 dark:bg-indigo-950/20">Finway Ecosystem Platform</th>
+                  <th className="p-6 font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50/50 dark:bg-indigo-950/20">Fiinway Platform</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -592,7 +594,7 @@ export const Home: React.FC = () => {
                   <tr key={idx} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
                     <td className="p-6 font-semibold text-slate-900 dark:text-white">{item.feature}</td>
                     <td className="p-6 text-slate-500 dark:text-slate-400">{item.traditional}</td>
-                    <td className="p-6 text-indigo-700 dark:text-indigo-300 font-medium bg-indigo-50/20 dark:bg-indigo-950/10">{item.Finway}</td>
+                    <td className="p-6 text-indigo-700 dark:text-indigo-300 font-medium bg-indigo-50/20 dark:bg-indigo-950/10">{item.Fiinway}</td>
                   </tr>
                 ))}
               </tbody>
@@ -606,14 +608,14 @@ export const Home: React.FC = () => {
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-              <motion.span variants={fadeIn} className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-indigo-300 text-sm font-semibold mb-4">Finway CARDS</motion.span>
+              <motion.span variants={fadeIn} className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-indigo-300 text-sm font-semibold mb-4">Fiinway CARDS</motion.span>
               <motion.h2 variants={fadeIn} className="text-4xl md:text-5xl font-extrabold mb-6">
                 The Card That <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Rewards You</span>
               </motion.h2>
               <motion.p variants={fadeIn} className="text-lg text-slate-300 mb-10 max-w-lg">Premium metal credit cards with industry-leading rewards, complimentary airport lounge access, and zero foreign transaction fees.</motion.p>
               
               <motion.div variants={staggerContainer} className="space-y-4">
-                {['5% cashback on all food & grocery orders', 'Complimentary lounge access at 1,200+ airports', 'Zero annual fee for the first year', 'Instant EMI conversion on any purchase'].map((feat, i) => (
+                {['5% cashback on all food delivery & marketplace orders', 'Complimentary lounge access at 1,200+ airports', 'Zero annual fee for the first year', 'Instant EMI conversion on any purchase'].map((feat, i) => (
                   <motion.div key={i} variants={fadeIn} className="flex items-center gap-3">
                     <div className="w-6 h-6 rounded-full bg-indigo-500/30 flex items-center justify-center flex-shrink-0"><CheckCircle size={14} className="text-indigo-400" /></div>
                     <span className="text-slate-300">{feat}</span>
@@ -637,7 +639,7 @@ export const Home: React.FC = () => {
                   <div className="flex justify-between items-end">
                     <div>
                       <p className="text-[10px] text-white/40 uppercase">Card Holder</p>
-                      <p className="text-sm text-white font-semibold">Finway PLATINUM</p>
+                      <p className="text-sm text-white font-semibold">Fiinway PLATINUM</p>
                     </div>
                     <p className="text-sm text-white/80 font-bold">VISA</p>
                   </div>
@@ -651,7 +653,7 @@ export const Home: React.FC = () => {
                   <div className="flex justify-between items-end">
                     <div>
                       <p className="text-[10px] text-white/30 uppercase">Card Holder</p>
-                      <p className="text-sm text-white/60 font-semibold">Finway GOLD</p>
+                      <p className="text-sm text-white/60 font-semibold">Fiinway GOLD</p>
                     </div>
                     <p className="text-sm text-white/50 font-bold">VISA</p>
                   </div>
@@ -668,16 +670,16 @@ export const Home: React.FC = () => {
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="text-center max-w-3xl mx-auto mb-16">
             <span className="inline-block px-4 py-1.5 rounded-full bg-sky-50 dark:bg-sky-900/20 text-sky-600 dark:text-sky-400 text-sm font-semibold mb-4">TRAVEL & BOOKING</span>
             <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-6">
-              Explore the World with <span className="text-gradient bg-gradient-to-r from-sky-500 to-blue-600">Finway Travel</span>
+              Explore the World with <span className="text-gradient bg-gradient-to-r from-sky-500 to-blue-600">Fiinway Travel</span>
             </h2>
             <p className="text-lg text-slate-600 dark:text-slate-400">Flights, hotels, holidays & exclusive lounge access — all at unbeatable prices.</p>
           </motion.div>
 
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} className="grid md:grid-cols-3 gap-6">
             {[
-              { title: 'Flights Network', desc: 'Compare 500+ airlines. Book domestic & international flights instantly.', icon: <Plane size={20} />, img: 'https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=600&q=80' },
-              { title: 'Luxury Hotel Directory', desc: '1M+ verified premium properties worldwide with best-price ecosystem rates.', icon: <HomeIcon size={20} />, img: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80' },
-              { title: 'Curated Holidays', desc: 'Custom domestic & international packages with local itinerary planners.', icon: <Globe size={20} />, img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80' },
+              { title: 'Travel Booking', desc: 'Plan entire itineraries, book flights, and reserve train tickets seamlessly inside a single unified app.', icon: <Plane size={20} />, img: 'https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=600&q=80' },
+              { title: 'Hotels', desc: 'Book verified budget stays to luxury resorts with exclusive loyalty cashbacks in the same platform.', icon: <HomeIcon size={20} />, img: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80' },
+              { title: 'Sharing Cab (Outstation)', desc: 'Book long-distance shared inter-city cabs for weekend travels at deeply discounted rates.', icon: <Globe size={20} />, img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80' },
             ].map((item, i) => (
               <motion.div key={i} variants={fadeIn}>
                 <ImageCard 
@@ -747,7 +749,7 @@ export const Home: React.FC = () => {
       <section className="py-24">
         <div className="container mx-auto px-4 md:px-6">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 text-sm font-semibold mb-4">WHY Finway</span>
+            <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 text-sm font-semibold mb-4">WHY Fiinway</span>
             <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-6">
               Built for <span className="text-gradient bg-gradient-to-r from-emerald-500 to-teal-500">Scale & Security</span>
             </h2>
@@ -858,7 +860,7 @@ export const Home: React.FC = () => {
               <motion.h2 variants={fadeIn} className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-6">
                 Your Whole Life, <span className="text-gradient bg-gradient-to-r from-fuchsia-500 to-pink-500">In Your Pocket</span>
               </motion.h2>
-              <motion.p variants={fadeIn} className="text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-lg">Download the Finway app and access all 12+ services from a single interface. Available on iOS and Android.</motion.p>
+              <motion.p variants={fadeIn} className="text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-lg">Download the Fiinway app and access all 12+ services from a single interface. Available on iOS and Android.</motion.p>
               
               <motion.div variants={fadeIn} className="flex gap-4">
                 <div className="flex items-center gap-3 px-5 py-3 bg-black rounded-xl cursor-pointer hover:bg-slate-800 transition-colors">
@@ -888,7 +890,7 @@ export const Home: React.FC = () => {
                 </div>
                 <div className="mt-8 p-4 h-full bg-gradient-to-b from-indigo-500 to-purple-600 flex flex-col items-center pt-12">
                   <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center mb-4"><Zap size={32} className="text-white" /></div>
-                  <p className="text-white font-bold text-xl mb-1">Finway</p>
+                  <p className="text-white font-bold text-xl mb-1">Fiinway</p>
                   <p className="text-white/60 text-xs mb-8">Ecosystem</p>
                   <div className="grid grid-cols-3 gap-3 w-full">
                     {[Utensils, ShoppingBag, CreditCard, Plane, Heart, Truck].map((Icon, i) => (
@@ -911,7 +913,7 @@ export const Home: React.FC = () => {
             <div className="w-16 h-16 rounded-3xl bg-indigo-50 dark:bg-indigo-950/40 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mx-auto mb-6 border border-slate-100 dark:border-slate-800">
               <Bell size={24} className="animate-bounce" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4">Stay Connected with Finway</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4">Stay Connected with Fiinway</h2>
             <p className="text-slate-600 dark:text-slate-400 mb-8 max-w-xl mx-auto">Get monthly product updates, developer logs, and priority invites to card distributions directly to your inbox.</p>
             
             <AnimatePresence mode="wait">
@@ -964,10 +966,10 @@ export const Home: React.FC = () => {
                 Ready to Experience the<br />Future of Everything?
               </h2>
               <p className="text-lg text-white/80 mb-10 max-w-2xl mx-auto">
-                Join 12 million+ users who trust Finway Ecosystem for their daily needs and business operations. Start for free, scale without limits.
+                Join 12 million+ users who trust Fiinway for their daily needs and business operations. Start for free, scale without limits.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
-                <Button size="lg" className="bg-white text-indigo-700 hover:bg-slate-100 border-0 shadow-lg font-bold">Create Free Account</Button>
+                <Button size="lg" className="bg-white text-white hover:bg-slate-100 border-0 shadow-lg font-bold">Create Free Account</Button>
                 <Link to="/contact" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-white/30 text-white font-semibold hover:bg-white/10 transition-colors">
                   Talk to Sales <ArrowRight size={18} />
                 </Link>

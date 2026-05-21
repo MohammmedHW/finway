@@ -21,7 +21,7 @@ export const Industries: React.FC = () => {
           { title: "Financial Services", icon: <Landmark size={32} /> },
           { title: "Healthcare", icon: <Stethoscope size={32} /> },
           { title: "Education", icon: <GraduationCap size={32} /> },
-          { title: "Real Estate", icon: <Building2 size={32} /> }
+          { title: "E-Commerce & Retail", icon: <Building2 size={32} /> }
         ].map((industry, i) => (
           <motion.div key={i} variants={fadeIn} className="glass-card p-8 rounded-3xl flex items-start gap-6 hover:-translate-y-1 transition-transform duration-300">
             <div className="text-indigo-600 dark:text-indigo-400 p-4 bg-indigo-50 dark:bg-slate-800 rounded-2xl">
