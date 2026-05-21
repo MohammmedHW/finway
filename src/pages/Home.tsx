@@ -1,120 +1,21 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  CreditCard, Zap, Globe, ArrowRight, ShoppingBag, Briefcase,
-  Wallet, Utensils, Truck, Plane, Smartphone, Heart, 
-  Home as HomeIcon, GraduationCap, Wifi, Monitor, Lock,
+  CreditCard, Zap, Globe, ArrowRight, ShoppingBag, 
+  Utensils, Truck, Plane, Smartphone, Heart, 
+  Home as HomeIcon, Wifi, Monitor, Lock,
   TrendingUp, Users, Star, CheckCircle, Award, Clock, MapPin,
   ChevronDown, ChevronUp, Send, Check, Bell,
-  Percent, Banknote, Coins, ArrowLeftRight, PiggyBank, Cpu, BookOpen,
   ShoppingCart
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
-import { ServiceCard } from '../components/ui/ServiceCard';
+import { ServiceCatalog } from '../components/ServiceCatalog';
 import { ImageCard } from '../components/ui/ImageCard';
 import { ChartCard } from '../components/ui/ChartCard';
 import { fadeIn, staggerContainer, floatAnimation } from '../lib/animations';
 
 /* ───────────────────── data ───────────────────── */
-const servicesList = [
-  {
-    title: "Digital Credit Line",
-    desc: "Instant digital credit limit with real-time biometric verification and flexible dynamic repayment cycles.",
-    icon: <CreditCard size={24} />,
-    imageUrl: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80",
-    tag: "Credit",
-    path: "/services/digital-credit-line"
-  },
-  {
-    title: "0% Interest Credit",
-    desc: "Exclusive zero-interest credit line up to 45 days on partner merchant networks and marketplace checkouts.",
-    icon: <Percent size={24} />,
-    imageUrl: "https://images.unsplash.com/photo-1589758438368-0ad531db3366?w=600&q=80",
-    tag: "0% APR",
-    path: "/services/zero-interest-credit"
-  },
-  {
-    title: "Personal Loan",
-    desc: "Hassle-free personal loans up to ₹5,00,000 with customized multi-year tenure options and low interest rates.",
-    icon: <Banknote size={24} />,
-    imageUrl: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=600&q=80",
-    tag: "Lending",
-    path: "/services/personal-loan"
-  },
-  {
-    title: "Instant Virtual Loan",
-    desc: "Fully automated virtual loan underwriting and disbursal straight into your Finway wallet in under 120 seconds.",
-    icon: <Coins size={24} />,
-    imageUrl: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=600&q=80",
-    tag: "Virtual Loan",
-    path: "/services/instant-virtual-loan"
-  },
-  {
-    title: "Immediate Credit 15k",
-    desc: "Quick emergency micro-loans of ₹15,000 for unexpected bills, with single-tap instant approval.",
-    icon: <Wallet size={24} />,
-    imageUrl: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=600&q=80",
-    tag: "Micro Credit",
-    path: "/services/immediate-credit-15k"
-  },
-  {
-    title: "Virtual Credit 50k",
-    desc: "Instantly generated digital credit limit of ₹50,000 to shop online safely with rotating CVV numbers.",
-    icon: <CreditCard size={24} />,
-    imageUrl: "https://images.unsplash.com/photo-1563013544-824ae1d704d3?w=600&q=80",
-    tag: "Virtual Credit",
-    path: "/services/virtual-credit-50k"
-  },
-  {
-    title: "Business Credit Card",
-    desc: "Optimize corporate spending with premium metal commercial cards offering automated expense reporting.",
-    icon: <Briefcase size={24} />,
-    imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&q=80",
-    tag: "Corporate",
-    path: "/services/business-credit-card"
-  },
-  {
-    title: "Student Credit Card",
-    desc: "Build credit history early with tailored student cards featuring zero joining fees and study material rewards.",
-    icon: <GraduationCap size={24} />,
-    imageUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80",
-    tag: "Student First",
-    path: "/services/student-credit-card"
-  },
-  {
-    title: "Transfer Cashback",
-    desc: "Receive instant 1% cashback directly in your unified wallet on all domestic peer-to-peer bank transfers.",
-    icon: <ArrowLeftRight size={24} />,
-    imageUrl: "https://images.unsplash.com/photo-1556742402-f86a9fb0e0e0?w=600&q=80",
-    tag: "Cashback Reward",
-    path: "/services/transfer-cashback"
-  },
-  {
-    title: "Saving Increment",
-    desc: "Automated spare-change rounding on all daily transactions, invested directly in gold or liquid funds.",
-    icon: <PiggyBank size={24} />,
-    imageUrl: "https://images.unsplash.com/photo-1579621970795-87facc2f9040?w=600&q=80",
-    tag: "Savings",
-    path: "/services/saving-increment"
-  },
-  {
-    title: "Payment Gateway",
-    desc: "Robust checkout integration supporting UPI, NetBanking, and credit/debit cards with low merchant MDR.",
-    icon: <Cpu size={24} />,
-    imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
-    tag: "Enterprise Pay",
-    path: "/services/payment-gateway"
-  },
-  {
-    title: "Scholarship Platform",
-    desc: "Apply for corporate-sponsored, verified educational grant and scholarship pipelines directly.",
-    icon: <BookOpen size={24} />,
-    imageUrl: "https://images.unsplash.com/photo-1511203466129-824e631920d7?w=600&q=80",
-    tag: "Grants & Study",
-    path: "/services/scholarship-platform"
-  }
-];
 
 const stats = [
   { label: 'Active Users', value: '12M+', icon: Users },
@@ -331,34 +232,21 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* ════════════════ SECTION 3 — ALL SERVICES (12 cards) ════════════════ */}
-      <section className="py-24">
+      {/* ════════════════ SECTION 3 — ALL SERVICES (Dynamic Catalog) ════════════════ */}
+      <section className="pt-24 pb-12">
         <div className="container mx-auto px-4 md:px-6">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="text-center max-w-3xl mx-auto mb-16">
             <span className="inline-block px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-sm font-semibold mb-4">OUR ECOSYSTEM</span>
             <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-6">
-              12+ Connected Services, <span className="text-gradient bg-gradient-to-r from-indigo-600 to-purple-600">One Unified App</span>
+              30+ Connected Services, <span className="text-gradient bg-gradient-to-r from-indigo-600 to-purple-600">One Unified App</span>
             </h2>
             <p className="text-lg text-slate-600 dark:text-slate-400">
-              Enjoy custom dual-visual cards featuring beautiful illustrations and floating vector icons, built for peak aesthetics and responsive performance.
+              Explore our comprehensive suite of services. Use the interactive filters below to discover how everything connects within the Fiinway ecosystem.
             </p>
           </motion.div>
-
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer} className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {servicesList.map((s, i) => (
-              <motion.div key={i} variants={fadeIn}>
-                <ServiceCard 
-                  title={s.title}
-                  description={s.desc}
-                  icon={s.icon}
-                  imageUrl={s.imageUrl}
-                  tag={s.tag}
-                  internalPath={s.path}
-                />
-              </motion.div>
-            ))}
-          </motion.div>
         </div>
+
+        <ServiceCatalog />
       </section>
 
       {/* ════════════════ SECTION 4 — HOW IT WORKS ════════════════ */}

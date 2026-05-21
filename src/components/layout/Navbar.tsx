@@ -11,6 +11,7 @@ export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
 
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
@@ -41,6 +42,7 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     setMobileMenuOpen(false);
     setServicesDropdownOpen(false);
+    setMobileServicesOpen(false);
   }, [location]);
 
   const navLinks = [
@@ -63,7 +65,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 backdrop-blur-xl border-b transition-[background-color,border-color,box-shadow] duration-350 ease-out overflow-x-hidden
+      className={`fixed top-0 left-0 w-full z-50 backdrop-blur-xl border-b transition-[background-color,border-color,box-shadow] duration-350 ease-out overflow-visible
       ${
         isScrolled
           ? 'bg-white/75 dark:bg-slate-950/70 border-slate-200/50 dark:border-slate-800/50 shadow-md shadow-black/5'
@@ -101,7 +103,10 @@ export const Navbar: React.FC = () => {
               >
                 {link.hasDropdown ? (
                   <>
-                    <button className="flex items-center gap-1 text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors py-2">
+                    <button 
+                      onClick={() => setServicesDropdownOpen(!servicesDropdownOpen)}
+                      className="flex items-center gap-1 text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors py-2"
+                    >
                       {link.name}
 
                       <ChevronDown
@@ -119,9 +124,9 @@ export const Navbar: React.FC = () => {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: 8 }}
                           transition={{ duration: 0.18 }}
-                          className="absolute left-1/2 top-full w-64 -translate-x-1/2 pt-4"
+                          className="absolute left-1/2 top-[calc(100%+8px)] w-64 -translate-x-1/2 z-50"
                         >
-                          <div className="rounded-2xl border border-white/10 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl shadow-2xl overflow-hidden">
+                         <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl shadow-2xl overflow-hidden">
                             <div className="p-3 border-b border-slate-200 dark:border-slate-800">
                               <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                                 Ecosystem Services
@@ -220,25 +225,64 @@ export const Navbar: React.FC = () => {
                   key={link.name}
                   className="border-b border-slate-200 dark:border-slate-800 pb-4"
                 >
-                  <Link
-                    to={link.path}
-                    className="block text-lg font-medium text-slate-800 dark:text-white"
-                  >
-                    {link.name}
-                  </Link>
-
-                  {link.hasDropdown && (
-                    <div className="mt-4 ml-2 flex flex-col gap-3 border-l-2 border-indigo-100 pl-4 dark:border-slate-700">
-                      {serviceCategories.map((service) => (
+                  {link.hasDropdown ? (
+                    <div>
+                      <div className="flex items-center justify-between">
                         <Link
-                          key={service.name}
-                          to={service.path}
-                          className="text-slate-600 dark:text-slate-400"
+                          to={link.path}
+                          className="block text-lg font-medium text-slate-800 dark:text-white"
                         >
-                          {service.name}
+                          {link.name}
                         </Link>
-                      ))}
+                        <button
+                          onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                          className="p-1 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                        >
+                          <ChevronDown
+                            size={20}
+                            className={`transition-transform duration-300 ${
+                              mobileServicesOpen ? 'rotate-180' : ''
+                            }`}
+                          />
+                        </button>
+                      </div>
+
+                      <AnimatePresence>
+                        {mobileServicesOpen && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="mt-4 ml-2 flex flex-col gap-3 border-l-2 border-indigo-100 pl-4 dark:border-slate-700">
+                              {serviceCategories.map((service) => (
+                                <Link
+                                  key={service.name}
+                                  to={service.path}
+                                  className="text-slate-600 dark:text-slate-400"
+                                >
+                                  {service.name}
+                                </Link>
+                              ))}
+                              <Link
+                                to="/services"
+                                className="text-indigo-600 dark:text-indigo-400 font-medium"
+                              >
+                                View all services →
+                              </Link>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
+                  ) : (
+                    <Link
+                      to={link.path}
+                      className="block text-lg font-medium text-slate-800 dark:text-white"
+                    >
+                      {link.name}
+                    </Link>
                   )}
                 </div>
               ))}
