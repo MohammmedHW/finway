@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import React from 'react'
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
-import logo from '../public/favicon.svg'
+
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme()
