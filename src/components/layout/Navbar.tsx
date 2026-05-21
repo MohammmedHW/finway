@@ -63,7 +63,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 backdrop-blur-xl border-b transition-[background-color,border-color,box-shadow] duration-350 ease-out
+      className={`fixed top-0 left-0 w-full z-50 backdrop-blur-xl border-b transition-[background-color,border-color,box-shadow] duration-350 ease-out overflow-x-hidden
       ${
         isScrolled
           ? 'bg-white/75 dark:bg-slate-950/70 border-slate-200/50 dark:border-slate-800/50 shadow-md shadow-black/5'
@@ -212,7 +212,7 @@ export const Navbar: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden border-t border-white/10 bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl"
+            className="md:hidden w-full border-t border-white/10 bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl overflow-hidden"
           >
             <div className="flex flex-col gap-4 px-4 py-6">
               {navLinks.map((link) => (
