@@ -6,7 +6,7 @@ import {
   Home as HomeIcon, Wifi, Monitor, Lock,
   TrendingUp, Users, Star, CheckCircle, Award, Clock, MapPin,
   ChevronDown, ChevronUp, Send, Check, Bell,
-  ShoppingCart
+  ShoppingCart,Landmark 
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
@@ -18,10 +18,10 @@ import { fadeIn, staggerContainer, floatAnimation } from '../lib/animations';
 /* ───────────────────── data ───────────────────── */
 
 const stats = [
-  { label: 'Active Users', value: '12M+', icon: Users },
-  { label: 'Transactions / Day', value: '8.5M', icon: TrendingUp },
-  { label: 'Partner Merchants', value: '250K+', icon: Star },
-  { label: 'Countries Supported', value: '40+', icon: Globe },
+  { label: 'Registered Users', value: '5K+', icon: Users },
+  { label: 'Monthly Transactions', value: '12K+', icon: TrendingUp },
+  { label: 'Partner Merchants', value: '150+', icon: Star },
+  { label: 'Pan India Service', value: '28 States', icon: Landmark },
 ];
 
 const comparisonPoints = [
