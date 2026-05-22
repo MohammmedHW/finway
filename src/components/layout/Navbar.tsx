@@ -82,7 +82,7 @@ export const Navbar: React.FC = () => {
               className="w-10 h-10 object-contain transition-transform duration-300 group-hover:scale-105"
             />
 
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-900 to-purple-900 dark:from-white dark:to-slate-300">
+            <span className="text-xl font-bold bg-clip-text text-transparent" style={{backgroundImage:'linear-gradient(135deg,#E94E24 0%,#F3C326 50%,#69C281 100%)'}}>
               Fiinway
              
             </span>
@@ -105,7 +105,7 @@ export const Navbar: React.FC = () => {
                   <>
                     <button 
                       onClick={() => setServicesDropdownOpen(!servicesDropdownOpen)}
-                      className="flex items-center gap-1 text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors py-2"
+                      className="flex items-center gap-1 text-slate-700 dark:text-slate-300 hover:text-[#E94E24] dark:hover:text-[#F3C326] font-medium transition-colors py-2"
                     >
                       {link.name}
 
@@ -148,7 +148,7 @@ export const Navbar: React.FC = () => {
                             <div className="p-2 pt-0">
                               <Link
                                 to="/services"
-                                className="block w-full rounded-xl bg-indigo-50 dark:bg-indigo-900/30 py-2 text-center text-sm font-semibold text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors"
+                                className="block w-full rounded-xl py-2 text-center text-sm font-semibold text-white hover:brightness-105 transition-colors" style={{background:'linear-gradient(135deg,#E94E24,#F3C326,#69C281)'}}
                               >
                                 View all services →
                               </Link>
@@ -161,7 +161,7 @@ export const Navbar: React.FC = () => {
                 ) : (
                   <Link
                     to={link.path}
-                    className="text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors"
+                    className="text-slate-700 dark:text-slate-300 hover:text-[#E94E24] dark:hover:text-[#F3C326] font-medium transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -182,7 +182,7 @@ export const Navbar: React.FC = () => {
 
             <Link
               to="/contact"
-              className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400"
+              className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-[#E94E24] dark:hover:text-[#F3C326]"
             >
               Contact Sales
             </Link>
@@ -255,7 +255,7 @@ export const Navbar: React.FC = () => {
                             exit={{ height: 0, opacity: 0 }}
                             className="overflow-hidden"
                           >
-                            <div className="mt-4 ml-2 flex flex-col gap-3 border-l-2 border-indigo-100 pl-4 dark:border-slate-700">
+                            <div className="mt-4 ml-2 flex flex-col gap-3 border-l-2 border-[#F3C326]/40 pl-4 dark:border-[#E94E24]/40">
                               {serviceCategories.map((service) => (
                                 <Link
                                   key={service.name}
@@ -267,7 +267,7 @@ export const Navbar: React.FC = () => {
                               ))}
                               <Link
                                 to="/services"
-                                className="text-indigo-600 dark:text-indigo-400 font-medium"
+                                className="font-semibold" style={{color:'#E94E24'}}
                               >
                                 View all services →
                               </Link>

@@ -9,6 +9,11 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
+
+    /* Fiinway Brand Colors */
+    --brand-saffron:  #E94E24;
+    --brand-gold:     #F3C326;
+    --brand-green:    #69C281;
   }
   .dark {
     --background: 222.2 84% 4.9%;
@@ -30,6 +35,7 @@
 }
 
 @layer utilities {
+  /* ── Glass Surfaces ── */
   .glass {
     @apply bg-white/70 backdrop-blur-md border border-slate-200/60;
   }
@@ -42,7 +48,32 @@
   .dark .glass-card {
     @apply bg-slate-900 border-slate-800 shadow-2xl;
   }
+
+  /* ── Brand Gradient Text (logo colors: saffron → gold → green) ── */
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600;
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #E94E24 0%, #F3C326 50%, #69C281 100%);
+  }
+
+  /* ── Brand Gradient Background ── */
+  .bg-brand-gradient {
+    background-image: linear-gradient(135deg, #E94E24 0%, #F3C326 50%, #69C281 100%);
+  }
+  .bg-brand-gradient-r {
+    background-image: linear-gradient(to right, #E94E24, #F3C326, #69C281);
+  }
+
+  /* ── Brand Ring for focus states ── */
+  .ring-brand {
+    --tw-ring-color: #E94E24;
+  }
+
+  /* ── Hide scrollbar ── */
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
 }

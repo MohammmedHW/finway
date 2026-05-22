@@ -1,14 +1,27 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  CreditCard, Wallet, Percent, Banknote, Coins, Briefcase, GraduationCap, 
-  ArrowLeftRight, PiggyBank, Cpu, Heart, Activity, Stethoscope, ShoppingCart, 
-  Plane, Hotel, Utensils, Store, ChefHat, Leaf, Smartphone, Car, Bike, Truck, 
-  Users, BookOpen, Globe
+import {
+  CreditCard, Wallet, Percent, Banknote, Coins, Briefcase, GraduationCap,
+  ArrowLeftRight, PiggyBank, Cpu, Heart, Activity, Stethoscope, ShoppingCart,
+  Plane, Hotel, Utensils, Store, ChefHat, Leaf, Smartphone, Car, Bike, Truck,
+  Users, BookOpen, Globe, QrCode, Zap, Tv, Building2, Building, Cross,
+  Pill, Package, Send, TrendingUp, Star, RefreshCcw, CircleDollarSign,
+  CalendarDays, ReceiptText, ShoppingBag, Repeat, BadgePercent, Landmark
 } from 'lucide-react';
 import { staggerContainer } from '../lib/animations';
 
-type Category = 'all' | 'financial' | 'transport' | 'travel' | 'food' | 'healthcare' | 'shopping' | 'utilities' | 'enterprise';
+/* ─────────────────────────────────────────────────
+   TYPES
+───────────────────────────────────────────────── */
+type Category =
+  | 'financial'
+  | 'payment'
+  | 'healthcare'
+  | 'ecommerce'
+  | 'travel'
+  | 'student'
+  | 'merchant'
+  | 'lifestyle';
 
 interface ServiceItem {
   title: string;
@@ -17,302 +30,617 @@ interface ServiceItem {
   imageUrl: string;
   tag: string;
   category: Category;
+  subCategory: string;
+  color: string;
   path: string;
-  color: string; // tailwind gradient classes
 }
 
+/* ─────────────────────────────────────────────────
+   ALL SERVICES DATA
+───────────────────────────────────────────────── */
 const allServices: ServiceItem[] = [
-  // ── Financial Hub ──────────────────────────────────────────────
+
+  // ══════════════════════════════════════════════
+  // 1. FINANCIAL & CREDIT SERVICES
+  // ══════════════════════════════════════════════
+
+  // 💳 Credit & Loan Solutions
   {
-    title: "Digital Credit Line",
-    description: "Instant digital credit limit with real-time biometric verification and flexible dynamic repayment cycles.",
-    icon: <CreditCard size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80",
-    tag: "Credit", category: "financial", path: "/services/digital-credit-line",
-    color: "from-indigo-500 to-purple-600"
+    title: 'Digital Credit Line',
+    description: 'Get instant access to a digital credit limit up to ₹5 Lakh with real-time biometric verification and flexible repayment cycles.',
+    icon: <CreditCard size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80',
+    tag: 'Up to ₹5 Lakh', category: 'financial', subCategory: '💳 Credit & Loan Solutions',
+    color: 'from-indigo-500 to-purple-600', path: '/services/digital-credit-line',
   },
   {
-    title: "0% Interest Credit",
-    description: "Exclusive zero-interest credit line up to 45 days on partner merchant networks and marketplace checkouts.",
-    icon: <Percent size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1589758438368-0ad531db3366?w=600&q=80",
-    tag: "0% APR", category: "financial", path: "/services/zero-interest-credit",
-    color: "from-violet-500 to-indigo-600"
+    title: 'Zero-Interest Credit',
+    description: 'Exclusive 0% interest credit line valid up to 45 days across partner merchant networks and online checkouts.',
+    icon: <Percent size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1589758438368-0ad531db3366?w=600&q=80',
+    tag: '0% APR', category: 'financial', subCategory: '💳 Credit & Loan Solutions',
+    color: 'from-violet-500 to-indigo-600', path: '/services/zero-interest-credit',
   },
   {
-    title: "Personal Loan",
-    description: "Hassle-free personal loans up to ₹5,00,000 with customized multi-year tenure options and low interest rates.",
-    icon: <Banknote size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=600&q=80",
-    tag: "Lending", category: "financial", path: "/services/personal-loan",
-    color: "from-blue-500 to-indigo-600"
+    title: 'Personal Loan',
+    description: 'Hassle-free personal loans up to ₹5,00,000 with customized tenure options, low interest rates, and zero hidden charges.',
+    icon: <Banknote size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=600&q=80',
+    tag: 'Quick Disbursal', category: 'financial', subCategory: '💳 Credit & Loan Solutions',
+    color: 'from-blue-500 to-indigo-600', path: '/services/personal-loan',
   },
   {
-    title: "Instant Virtual Loan",
-    description: "Fully automated virtual loan underwriting and disbursal straight into your Finway wallet in under 120 seconds.",
-    icon: <Coins size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=600&q=80",
-    tag: "Virtual Loan", category: "financial", path: "/services/instant-virtual-loan",
-    color: "from-purple-500 to-pink-600"
+    title: 'Instant Virtual Loan',
+    description: 'Fully automated loan underwriting and disbursal straight into your Fiinway wallet in under 120 seconds.',
+    icon: <Coins size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=600&q=80',
+    tag: 'In 120 Seconds', category: 'financial', subCategory: '💳 Credit & Loan Solutions',
+    color: 'from-purple-500 to-pink-600', path: '/services/instant-virtual-loan',
   },
   {
-    title: "Immediate Credit 15k",
-    description: "Quick emergency micro-loans of ₹15,000 for unexpected bills, with single-tap instant approval.",
-    icon: <Wallet size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=600&q=80",
-    tag: "Micro Credit", category: "financial", path: "/services/immediate-credit-15k",
-    color: "from-fuchsia-500 to-purple-600"
+    title: 'Immediate Credit ₹15,000',
+    description: 'Emergency micro-credit of ₹15,000 for unexpected expenses, with single-tap instant approval and no paperwork.',
+    icon: <Wallet size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=600&q=80',
+    tag: 'Emergency Credit', category: 'financial', subCategory: '💳 Credit & Loan Solutions',
+    color: 'from-fuchsia-500 to-purple-600', path: '/services/immediate-credit-15k',
   },
   {
-    title: "Virtual Credit 50k",
-    description: "Instantly generated digital credit limit of ₹50,000 to shop online safely with rotating CVV numbers.",
-    icon: <CreditCard size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1563013544-824ae1d704d3?w=600&q=80",
-    tag: "Virtual Credit", category: "financial", path: "/services/virtual-credit-50k",
-    color: "from-indigo-400 to-cyan-600"
+    title: 'Virtual Credit ₹50,000',
+    description: 'Instantly generated digital credit limit of ₹50,000 for safe online shopping with rotating CVV protection.',
+    icon: <CreditCard size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1563013544-824ae1d704d3?w=600&q=80',
+    tag: '₹50K Limit', category: 'financial', subCategory: '💳 Credit & Loan Solutions',
+    color: 'from-indigo-400 to-cyan-600', path: '/services/virtual-credit-50k',
+  },
+
+  // 🏦 Cards & Credit Products
+  {
+    title: 'Business Credit Card',
+    description: 'Premium metal commercial cards with automated expense reporting, high credit limits, and exclusive corporate rewards.',
+    icon: <Briefcase size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&q=80',
+    tag: 'Corporate', category: 'financial', subCategory: '🏦 Cards & Credit Products',
+    color: 'from-slate-600 to-slate-800', path: '/services/business-credit-card',
   },
   {
-    title: "Business Credit Card",
-    description: "Optimize corporate spending with premium metal commercial cards offering automated expense reporting.",
-    icon: <Briefcase size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&q=80",
-    tag: "Corporate", category: "enterprise", path: "/services/business-credit-card",
-    color: "from-slate-600 to-slate-800"
+    title: 'Student Credit Card',
+    description: 'Build credit history early with zero joining fees, study material rewards, and student-exclusive cashback offers.',
+    icon: <GraduationCap size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80',
+    tag: 'Student First', category: 'financial', subCategory: '🏦 Cards & Credit Products',
+    color: 'from-teal-500 to-emerald-600', path: '/services/student-credit-card',
   },
   {
-    title: "Student Credit Card",
-    description: "Build credit history early with tailored student cards featuring zero joining fees and study material rewards.",
-    icon: <GraduationCap size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80",
-    tag: "Student First", category: "financial", path: "/services/student-credit-card",
-    color: "from-teal-500 to-emerald-600"
+    title: 'International Student Card',
+    description: 'Multi-currency travel & credit card for students abroad with zero international transaction markup and global acceptance.',
+    icon: <Globe size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&q=80',
+    tag: 'Global Study', category: 'financial', subCategory: '🏦 Cards & Credit Products',
+    color: 'from-sky-500 to-blue-600', path: '/services/international-student-card',
+  },
+
+  // 💸 Cashback & Savings
+  {
+    title: '1% Transfer Cashback',
+    description: 'Earn instant 1% cashback directly into your Fiinway wallet on every domestic peer-to-peer bank transfer.',
+    icon: <ArrowLeftRight size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1556742402-f86a9fb0e0e0?w=600&q=80',
+    tag: 'Instant Cashback', category: 'financial', subCategory: '💸 Cashback & Savings',
+    color: 'from-green-500 to-teal-600', path: '/services/transfer-cashback',
   },
   {
-    title: "International Student Card",
-    description: "Multi-currency travel and credit card for students abroad, with waived international transaction markups.",
-    icon: <Globe size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&q=80",
-    tag: "Global Study", category: "financial", path: "/services/international-student-card",
-    color: "from-sky-500 to-blue-600"
+    title: 'Savings Increment Benefits',
+    description: 'Automated spare-change rounding on all daily transactions, invested directly into gold or liquid mutual funds.',
+    icon: <PiggyBank size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1579621970795-87facc2f9040?w=600&q=80',
+    tag: 'Auto-Save', category: 'financial', subCategory: '💸 Cashback & Savings',
+    color: 'from-emerald-500 to-green-600', path: '/services/saving-increment',
   },
   {
-    title: "Transfer Cashback",
-    description: "Receive instant 1% cashback directly in your unified wallet on all domestic peer-to-peer bank transfers.",
-    icon: <ArrowLeftRight size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1556742402-f86a9fb0e0e0?w=600&q=80",
-    tag: "Cashback Reward", category: "financial", path: "/services/transfer-cashback",
-    color: "from-green-500 to-teal-600"
+    title: 'Daily Collection Benefits',
+    description: 'Earn tiered reward points and cashback on every daily transaction. The more you transact, the more you earn.',
+    icon: <CalendarDays size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=80',
+    tag: 'Daily Rewards', category: 'financial', subCategory: '💸 Cashback & Savings',
+    color: 'from-amber-500 to-yellow-600', path: '/services/daily-collection-benefits',
   },
   {
-    title: "Saving Increment",
-    description: "Automated spare-change rounding on all daily transactions, invested directly in gold or liquid funds.",
-    icon: <PiggyBank size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1579621970795-87facc2f9040?w=600&q=80",
-    tag: "Savings", category: "financial", path: "/services/saving-increment",
-    color: "from-emerald-500 to-green-600"
+    title: 'Monthly Collection Rewards',
+    description: 'Unlock premium monthly cashback milestones and loyalty rewards based on your cumulative monthly spend volume.',
+    icon: <Star size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&q=80',
+    tag: 'Monthly Bonus', category: 'financial', subCategory: '💸 Cashback & Savings',
+    color: 'from-orange-500 to-red-500', path: '/services/monthly-collection-rewards',
+  },
+
+  // ══════════════════════════════════════════════
+  // 2. PAYMENT & BANKING SERVICES
+  // ══════════════════════════════════════════════
+
+  // 💰 Digital Transactions
+  {
+    title: 'Money Transfer',
+    description: 'Instant, secure, zero-fee money transfers across all Indian banks via UPI, NEFT, IMPS, and the Fiinway wallet.',
+    icon: <Send size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1556742044-3c52d6e88c62?w=600&q=80',
+    tag: 'Instant Transfer', category: 'payment', subCategory: '💰 Digital Transactions',
+    color: 'from-blue-500 to-indigo-600', path: '/services/money-transfer',
   },
   {
-    title: "Scholarship Platform",
-    description: "Apply for corporate-sponsored, verified educational grant and scholarship pipelines directly.",
-    icon: <BookOpen size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1511203466129-824e631920d7?w=600&q=80",
-    tag: "Grants & Study", category: "financial", path: "/services/scholarship-platform",
-    color: "from-amber-500 to-orange-600"
-  },
-  // ── Enterprise ─────────────────────────────────────────────────
-  {
-    title: "Payment Gateway",
-    description: "Robust checkout integration supporting UPI, NetBanking, and credit/debit cards with low merchant MDR.",
-    icon: <Cpu size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
-    tag: "Enterprise Pay", category: "enterprise", path: "/services/payment-gateway",
-    color: "from-slate-700 to-indigo-900"
+    title: 'QR Payment System',
+    description: 'Accept and make payments via dynamic QR codes at any merchant. Fast, contactless, and completely secure.',
+    icon: <QrCode size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1622630998477-20aa696ecb05?w=600&q=80',
+    tag: 'Scan & Pay', category: 'payment', subCategory: '💰 Digital Transactions',
+    color: 'from-violet-500 to-purple-600', path: '/services/qr-payment',
   },
   {
-    title: "Kitchen Partner",
-    description: "B2B commercial kitchen setups, supply chains, and inventory management for food creators.",
-    icon: <ChefHat size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&q=80",
-    tag: "Partner B2B", category: "enterprise", path: "/services/kitchen-partner",
-    color: "from-orange-600 to-red-700"
-  },
-  // ── Healthcare ─────────────────────────────────────────────────
-  {
-    title: "Healthcare Cashback",
-    description: "Earn up to 10% instant rebate on medicines, clinical lab test bookings, and hospital bills.",
-    icon: <Heart size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80",
-    tag: "Wellness Promo", category: "healthcare", path: "/services/healthcare-cashback",
-    color: "from-rose-500 to-pink-600"
+    title: 'Wallet Services',
+    description: 'A unified digital wallet to store, manage, and spend your cashbacks, rewards, and loaded funds seamlessly.',
+    icon: <Wallet size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1563013544-824ae1d704d3?w=600&q=80',
+    tag: 'Digital Wallet', category: 'payment', subCategory: '💰 Digital Transactions',
+    color: 'from-indigo-500 to-sky-600', path: '/services/wallet-services',
   },
   {
-    title: "Care Credit Card",
-    description: "Flexible, zero-cost health credit card designed to finance complex medical procedures and surgeries.",
-    icon: <Activity size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80",
-    tag: "Medical Credit", category: "healthcare", path: "/services/care-credit-card",
-    color: "from-red-500 to-rose-600"
+    title: 'Payment Gateway Integration',
+    description: 'Enterprise-grade checkout integration supporting UPI, Net Banking, and cards with industry-low MDR rates.',
+    icon: <Cpu size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80',
+    tag: 'Enterprise Pay', category: 'payment', subCategory: '💰 Digital Transactions',
+    color: 'from-slate-700 to-indigo-900', path: '/services/payment-gateway',
+  },
+
+  // 📲 Recharge & Utility
+  {
+    title: 'Mobile Recharge',
+    description: 'Instantly recharge any mobile number across all operators with exclusive cashback on every prepaid top-up.',
+    icon: <Smartphone size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80',
+    tag: 'All Operators', category: 'payment', subCategory: '📲 Recharge & Utility',
+    color: 'from-cyan-500 to-blue-500', path: '/services/mobile-recharge',
   },
   {
-    title: "OPD Credit Card",
-    description: "Specialized card offering instant cash-backed allowances for out-patient diagnostics and consultations.",
-    icon: <Stethoscope size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=600&q=80",
-    tag: "OPD Credit", category: "healthcare", path: "/services/opd-credit-card",
-    color: "from-pink-500 to-red-500"
+    title: 'Electricity Bill Payment',
+    description: 'Pay electricity bills for all state DISCOMs instantly with auto-reminder alerts before your due date.',
+    icon: <Zap size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600&q=80',
+    tag: 'All DISCOMs', category: 'payment', subCategory: '📲 Recharge & Utility',
+    color: 'from-yellow-500 to-amber-600', path: '/services/electricity-bill',
   },
   {
-    title: "Medicash Card",
-    description: "Tax-saving pre-paid health benefits card to purchase pharma goods and general wellness checks.",
-    icon: <Activity size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1582719478185-1ba4c6ce0e6a?w=600&q=80",
-    tag: "Prepaid Health", category: "healthcare", path: "/services/medicash-card",
-    color: "from-fuchsia-500 to-rose-600"
-  },
-  // ── Travel & Stays ─────────────────────────────────────────────
-  {
-    title: "Travel Booking",
-    description: "Plan entire itineraries, book national and international flights, and reserve train tickets seamlessly.",
-    icon: <Plane size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=600&q=80",
-    tag: "Travel Portal", category: "travel", path: "/services/travel-booking",
-    color: "from-sky-500 to-blue-600"
+    title: 'DTH Recharge',
+    description: 'Recharge your DTH connection across Tata Play, Airtel, Dish TV, and more with exclusive channel pack offers.',
+    icon: <Tv size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1593359677879-a4bb92f829e1?w=600&q=80',
+    tag: 'All Providers', category: 'payment', subCategory: '📲 Recharge & Utility',
+    color: 'from-rose-500 to-pink-600', path: '/services/dth-recharge',
   },
   {
-    title: "Hotels",
-    description: "Book verified budget stays to luxury resorts with exclusive ecosystem loyalty cashbacks.",
-    icon: <Hotel size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80",
-    tag: "Hotel Bookings", category: "travel", path: "/services/hotels",
-    color: "from-blue-500 to-cyan-600"
+    title: 'Utility Bill Payments',
+    description: 'Pay gas, water, broadband, and insurance premium bills from a single dashboard with autopay scheduling.',
+    icon: <ReceiptText size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=80',
+    tag: 'All-in-One Bills', category: 'payment', subCategory: '📲 Recharge & Utility',
+    color: 'from-teal-500 to-green-600', path: '/services/utility-bills',
   },
-  // ── Rides & Transport ──────────────────────────────────────────
+
+  // ══════════════════════════════════════════════
+  // 3. HEALTHCARE & MEDICAL SERVICES
+  // ══════════════════════════════════════════════
+
+  // 🏥 Medical Financial Support
   {
-    title: "Cab Ride",
-    description: "Instantly hail partner point-to-point city cabs with predictable, surge-free pricing models.",
-    icon: <Car size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1519183071298-a2962d1d8b1d?w=600&q=80",
-    tag: "Hail Cab", category: "transport", path: "/services/cab-ride",
-    color: "from-yellow-500 to-orange-500"
-  },
-  {
-    title: "Bike Ride",
-    description: "Quick, micro-mobility bike sharing networks for navigating heavy city traffic congestion.",
-    icon: <Bike size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1502776679549-b1d2f9a3c7b4?w=600&q=80",
-    tag: "Micro Mobility", category: "transport", path: "/services/bike-ride",
-    color: "from-lime-500 to-green-600"
+    title: 'Healthcare Cashback',
+    description: 'Earn up to 10% instant cashback on medicines, lab test bookings, hospital bills, and health check-up packages.',
+    icon: <Heart size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80',
+    tag: 'Up to 10% Back', category: 'healthcare', subCategory: '🏥 Medical Financial Support',
+    color: 'from-rose-500 to-pink-600', path: '/services/healthcare-cashback',
   },
   {
-    title: "Transport Pick and Drop",
-    description: "Reliable luggage, freight, or business inventory pick-and-drop logistics with active tracking.",
-    icon: <Truck size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80",
-    tag: "Logistics Hub", category: "transport", path: "/services/transport-pick-drop",
-    color: "from-orange-500 to-red-500"
+    title: 'Care Credit Card',
+    description: 'Flexible, zero-cost EMI health credit card designed for financing complex medical procedures and planned surgeries.',
+    icon: <Activity size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80',
+    tag: 'Medical Credit', category: 'healthcare', subCategory: '🏥 Medical Financial Support',
+    color: 'from-red-500 to-rose-600', path: '/services/care-credit-card',
   },
   {
-    title: "Sharing Cab",
-    description: "Environmentally friendly, affordable daily carpools for regular office routes.",
-    icon: <Users size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1588345938223-e5d0e90a2e85?w=600&q=80",
-    tag: "Ride Pool", category: "transport", path: "/services/sharing-cab",
-    color: "from-teal-500 to-cyan-600"
+    title: 'OPD Credit Card',
+    description: 'Specialized card offering instant cash-backed allowances for out-patient diagnostics, lab tests, and specialist consultations.',
+    icon: <Stethoscope size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=600&q=80',
+    tag: 'OPD Credit', category: 'healthcare', subCategory: '🏥 Medical Financial Support',
+    color: 'from-pink-500 to-red-500', path: '/services/opd-credit-card',
   },
   {
-    title: "Sharing Cab (Outstation)",
-    description: "Book long-distance shared inter-city cabs for weekend travels at deeply discounted rates.",
-    icon: <Car size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1533106418989-88406c7cc4e6?w=600&q=80",
-    tag: "Outstation Pool", category: "transport", path: "/services/sharing-cab-outstation",
-    color: "from-indigo-500 to-blue-600"
+    title: 'Medicash Card',
+    description: 'Tax-saving pre-paid health benefits card to purchase pharma goods, vitamins, and general wellness services.',
+    icon: <Pill size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1582719478185-1ba4c6ce0e6a?w=600&q=80',
+    tag: 'Prepaid Health', category: 'healthcare', subCategory: '🏥 Medical Financial Support',
+    color: 'from-fuchsia-500 to-rose-600', path: '/services/medicash-card',
   },
-  // ── Food & Delivery ────────────────────────────────────────────
+
+  // 💊 Medical Expense Coverage
   {
-    title: "Food Delivery",
-    description: "Order from top-tier local restaurants with 30-minute hot delivery guarantee.",
-    icon: <Utensils size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
-    tag: "Food Delivery", category: "food", path: "/services/food-delivery",
-    color: "from-orange-500 to-red-500"
-  },
-  // ── Shopping & Campus ──────────────────────────────────────────
-  {
-    title: "Marketplace",
-    description: "Shop electronics, fashion, and home goods directly inside the unified Finway application.",
-    icon: <ShoppingCart size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1472851294608-062f824d296e?w=600&q=80",
-    tag: "All-in-One Mall", category: "shopping", path: "/services/marketplace",
-    color: "from-violet-500 to-purple-600"
+    title: 'Hospital Payments',
+    description: 'Pay hospital bills directly from your Fiinway wallet or credit line with no-cost EMI options for IPD admissions.',
+    icon: <Building2 size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&q=80',
+    tag: 'IPD & OPD', category: 'healthcare', subCategory: '💊 Medical Expense Coverage',
+    color: 'from-red-600 to-rose-700', path: '/services/hospital-payments',
   },
   {
-    title: "Campus Store",
-    description: "Student portal for textbooks, reference guides, devices, and campus merchandise.",
-    icon: <Store size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=600&q=80",
-    tag: "Campus Tech", category: "shopping", path: "/services/campus-store",
-    color: "from-amber-500 to-orange-600"
-  },
-  // ── Utilities & Green ──────────────────────────────────────────
-  {
-    title: "Recharge and Bills",
-    description: "Instant mobile talktime recharges, broadband subscriptions, gas, and power utility bills.",
-    icon: <Smartphone size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80",
-    tag: "Utility Pay", category: "utilities", path: "/services/recharge-bills",
-    color: "from-cyan-500 to-blue-500"
+    title: 'Clinic Payments',
+    description: 'Effortlessly settle consultation fees at partner clinics with QR-based instant payment and digital receipts.',
+    icon: <Cross size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600&q=80',
+    tag: 'Clinic Pay', category: 'healthcare', subCategory: '💊 Medical Expense Coverage',
+    color: 'from-orange-500 to-red-500', path: '/services/clinic-payments',
   },
   {
-    title: "Green Exchange",
-    description: "Trade eco-conscious carbon credits and redeem points by supporting renewable projects.",
-    icon: <Leaf size={22} />,
-    imageUrl: "https://images.unsplash.com/photo-1508780709619-79562169bc64?w=600&q=80",
-    tag: "Eco Exchange", category: "utilities", path: "/services/green-exchange",
-    color: "from-green-500 to-emerald-600"
+    title: 'Nursing Home Payments',
+    description: 'Simplified billing for nursing home stays and post-surgical recovery care, with Fiinway credit support.',
+    icon: <Building size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=600&q=80',
+    tag: 'Care Homes', category: 'healthcare', subCategory: '💊 Medical Expense Coverage',
+    color: 'from-rose-600 to-fuchsia-700', path: '/services/nursing-home-payments',
+  },
+  {
+    title: 'Medical Store Benefits',
+    description: 'Special discount cards and cashback offers at partner pharmacy chains and online medicine delivery platforms.',
+    icon: <Pill size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=600&q=80',
+    tag: 'Pharma Savings', category: 'healthcare', subCategory: '💊 Medical Expense Coverage',
+    color: 'from-emerald-500 to-teal-600', path: '/services/medical-store-benefits',
+  },
+
+  // ══════════════════════════════════════════════
+  // 4. E-COMMERCE & MARKETPLACE
+  // ══════════════════════════════════════════════
+
+  // 🛒 Shopping & Commerce
+  {
+    title: 'Online Marketplace',
+    description: 'Shop electronics, fashion, home goods, and more directly inside the unified Fiinway app with integrated credit.',
+    icon: <ShoppingCart size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1472851294608-062f824d296e?w=600&q=80',
+    tag: 'All-in-One Mall', category: 'ecommerce', subCategory: '🛒 Shopping & Commerce',
+    color: 'from-violet-500 to-purple-600', path: '/services/marketplace',
+  },
+  {
+    title: 'New Product Sales',
+    description: 'Browse and buy verified new products across every category with Fiinway credit integration and buyer protection.',
+    icon: <ShoppingBag size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&q=80',
+    tag: 'Brand New', category: 'ecommerce', subCategory: '🛒 Shopping & Commerce',
+    color: 'from-blue-500 to-indigo-600', path: '/services/new-product-sales',
+  },
+  {
+    title: 'Old Product Resale',
+    description: 'List and sell your pre-owned electronics, books, and household items to a trusted community of Fiinway users.',
+    icon: <Repeat size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=600&q=80',
+    tag: 'Pre-Owned', category: 'ecommerce', subCategory: '🛒 Shopping & Commerce',
+    color: 'from-amber-500 to-orange-600', path: '/services/old-product-resale',
+  },
+  {
+    title: 'Green Exchange Platform',
+    description: 'Trade eco-conscious carbon credits and redeem reward points by supporting verified renewable energy projects.',
+    icon: <Leaf size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1508780709619-79562169bc64?w=600&q=80',
+    tag: 'Eco Exchange', category: 'ecommerce', subCategory: '🛒 Shopping & Commerce',
+    color: 'from-green-500 to-emerald-600', path: '/services/green-exchange',
+  },
+
+  // 🏫 Campus Commerce
+  {
+    title: 'Campus Store',
+    description: 'Student portal for textbooks, reference guides, lab equipment, gadgets, and exclusive campus merchandise.',
+    icon: <Store size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=600&q=80',
+    tag: 'Campus Tech', category: 'ecommerce', subCategory: '🏫 Campus Commerce',
+    color: 'from-amber-500 to-orange-600', path: '/services/campus-store',
+  },
+  {
+    title: 'Student Essentials Marketplace',
+    description: 'Curated marketplace for hostellers and students — stationery, appliances, and daily essentials at student prices.',
+    icon: <ShoppingCart size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&q=80',
+    tag: 'For Students', category: 'ecommerce', subCategory: '🏫 Campus Commerce',
+    color: 'from-teal-500 to-cyan-600', path: '/services/student-essentials',
+  },
+  {
+    title: 'Kitchen Partner Network',
+    description: 'B2B commercial kitchen setup, supply chain management, and bulk inventory purchasing for food entrepreneurs.',
+    icon: <ChefHat size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&q=80',
+    tag: 'Partner B2B', category: 'ecommerce', subCategory: '🏫 Campus Commerce',
+    color: 'from-orange-600 to-red-700', path: '/services/kitchen-partner',
+  },
+
+  // ══════════════════════════════════════════════
+  // 5. TRAVEL & TRANSPORT SERVICES
+  // ══════════════════════════════════════════════
+
+  // 🚖 Ride Services
+  {
+    title: 'Cab Ride (Local & Outstation)',
+    description: 'Instantly hail city cabs or book outstation trips with transparent, surge-free pricing and driver-tracking.',
+    icon: <Car size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1519183071298-a2962d1d8b1d?w=600&q=80',
+    tag: 'Book Cab', category: 'travel', subCategory: '🚖 Ride Services',
+    color: 'from-yellow-500 to-orange-500', path: '/services/cab-ride',
+  },
+  {
+    title: 'Bike Ride',
+    description: 'Quick, affordable bike rides to navigate heavy city traffic. Earn cashback on your first 10 weekly rides.',
+    icon: <Bike size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1502776679549-b1d2f9a3c7b4?w=600&q=80',
+    tag: 'Micro Mobility', category: 'travel', subCategory: '🚖 Ride Services',
+    color: 'from-lime-500 to-green-600', path: '/services/bike-ride',
+  },
+  {
+    title: 'Sharing Cab (Local)',
+    description: 'Eco-friendly and budget-friendly daily shared cabs for your regular office and college commutes.',
+    icon: <Users size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1588345938223-e5d0e90a2e85?w=600&q=80',
+    tag: 'Ride Pool', category: 'travel', subCategory: '🚖 Ride Services',
+    color: 'from-teal-500 to-cyan-600', path: '/services/sharing-cab',
+  },
+  {
+    title: 'Sharing Cab (Outstation)',
+    description: 'Book long-distance shared inter-city cabs for weekend getaways and holidays at deeply discounted fares.',
+    icon: <Car size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1533106418989-88406c7cc4e6?w=600&q=80',
+    tag: 'Outstation Pool', category: 'travel', subCategory: '🚖 Ride Services',
+    color: 'from-indigo-500 to-blue-600', path: '/services/sharing-cab-outstation',
+  },
+
+  // 📦 Logistics & Delivery
+  {
+    title: 'Transport Pick & Drop',
+    description: 'Reliable same-day pick-and-drop logistics for luggage, parcels, or business inventory with live GPS tracking.',
+    icon: <Truck size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80',
+    tag: 'Logistics Hub', category: 'travel', subCategory: '📦 Logistics & Delivery',
+    color: 'from-orange-500 to-red-500', path: '/services/transport-pick-drop',
+  },
+  {
+    title: 'Parcel & Delivery Support',
+    description: 'Send and receive parcels with Fiinway-verified delivery partners. Get real-time status updates on every shipment.',
+    icon: <Package size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1568652575555-3e5e4bafe6f2?w=600&q=80',
+    tag: 'Track & Send', category: 'travel', subCategory: '📦 Logistics & Delivery',
+    color: 'from-amber-500 to-yellow-600', path: '/services/parcel-delivery',
+  },
+
+  // ✈ Travel Booking
+  {
+    title: 'Travel Ticket Booking',
+    description: 'Plan and book domestic and international flights and train tickets with Fiinway credit and exclusive offers.',
+    icon: <Plane size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=600&q=80',
+    tag: 'Flights & Trains', category: 'travel', subCategory: '✈️ Travel Booking',
+    color: 'from-sky-500 to-blue-600', path: '/services/travel-booking',
+  },
+  {
+    title: 'Hotel Booking & Stay',
+    description: 'Book verified budget stays to luxury resorts with exclusive Fiinway ecosystem cashbacks and loyalty points.',
+    icon: <Hotel size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80',
+    tag: 'Hotels & Resorts', category: 'travel', subCategory: '✈️ Travel Booking',
+    color: 'from-blue-500 to-cyan-600', path: '/services/hotels',
+  },
+
+  // ══════════════════════════════════════════════
+  // 6. STUDENT & EDUCATION SERVICES
+  // ══════════════════════════════════════════════
+
+  // 🎓 Student Financial Support
+  {
+    title: 'Student Credit Card',
+    description: 'Build credit history early with zero joining fees, study material rewards, and student-exclusive cashback offers.',
+    icon: <GraduationCap size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80',
+    tag: 'Zero Fee Card', category: 'student', subCategory: '🎓 Student Financial Support',
+    color: 'from-teal-500 to-emerald-600', path: '/services/student-credit-card',
+  },
+  {
+    title: 'International Student Card',
+    description: 'Multi-currency card for students studying abroad — zero forex markup, accepted globally, powered by Fiinway.',
+    icon: <Globe size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&q=80',
+    tag: 'Study Abroad', category: 'student', subCategory: '🎓 Student Financial Support',
+    color: 'from-sky-500 to-blue-600', path: '/services/international-student-card',
+  },
+  {
+    title: 'Scholarship Platform',
+    description: 'Discover and apply for verified corporate-sponsored scholarships, educational grants, and fellowship programs.',
+    icon: <BookOpen size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1511203466129-824e631920d7?w=600&q=80',
+    tag: 'Grants & Awards', category: 'student', subCategory: '🎓 Student Financial Support',
+    color: 'from-amber-500 to-orange-600', path: '/services/scholarship-platform',
+  },
+
+  // 🏫 Campus Solutions
+  {
+    title: 'Campus Store',
+    description: 'Shop for textbooks, devices, stationery, and campus merchandise at discounted student prices with Fiinway credit.',
+    icon: <Store size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=600&q=80',
+    tag: 'Campus Shop', category: 'student', subCategory: '🏫 Campus Solutions',
+    color: 'from-amber-500 to-orange-600', path: '/services/campus-store',
+  },
+  {
+    title: 'Student Cashback Benefits',
+    description: 'Earn special student-tier cashback on food, transport, stationery, and entertainment across Fiinway ecosystem.',
+    icon: <BadgePercent size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1434030216411-0b793f4b6f6e?w=600&q=80',
+    tag: 'Student Perks', category: 'student', subCategory: '🏫 Campus Solutions',
+    color: 'from-violet-500 to-purple-600', path: '/services/student-cashback',
+  },
+
+  // ══════════════════════════════════════════════
+  // 7. MERCHANT & BUSINESS SOLUTIONS
+  // ══════════════════════════════════════════════
+
+  // 🏪 Merchant Services
+  {
+    title: 'Merchant QR Payments',
+    description: 'Accept UPI and wallet payments via a smart dynamic QR code. Get instant settlements and daily payment reports.',
+    icon: <QrCode size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1622630998477-20aa696ecb05?w=600&q=80',
+    tag: 'Accept Payments', category: 'merchant', subCategory: '🏪 Merchant Services',
+    color: 'from-indigo-600 to-purple-700', path: '/services/merchant-qr',
+  },
+  {
+    title: 'Business Wallet',
+    description: 'A dedicated business wallet to manage receivables, payables, and operational funds with full transaction history.',
+    icon: <Landmark size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80',
+    tag: 'Business Wallet', category: 'merchant', subCategory: '🏪 Merchant Services',
+    color: 'from-slate-600 to-slate-800', path: '/services/business-wallet',
+  },
+  {
+    title: 'Collection Management',
+    description: 'Automate due collection from customers with smart reminders, recurring payment links, and real-time dashboards.',
+    icon: <CircleDollarSign size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80',
+    tag: 'Auto Collect', category: 'merchant', subCategory: '🏪 Merchant Services',
+    color: 'from-teal-600 to-emerald-700', path: '/services/collection-management',
+  },
+
+  // 📈 Business Financial Tools
+  {
+    title: 'Business Credit Card',
+    description: 'Metal commercial cards with high limits, automated expense categorization, GST-ready reports, and team cards.',
+    icon: <Briefcase size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&q=80',
+    tag: 'Corporate Card', category: 'merchant', subCategory: '📈 Business Financial Tools',
+    color: 'from-zinc-700 to-slate-900', path: '/services/business-credit-card',
+  },
+  {
+    title: 'Payment Gateway',
+    description: 'Robust checkout integration for your website or app with support for all payment modes and low transaction fees.',
+    icon: <Cpu size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80',
+    tag: 'Dev Ready API', category: 'merchant', subCategory: '📈 Business Financial Tools',
+    color: 'from-blue-700 to-indigo-900', path: '/services/payment-gateway',
+  },
+  {
+    title: 'Instant Credit Support',
+    description: 'Get working capital credit instantly approved for your business with minimal documentation and same-day disbursal.',
+    icon: <TrendingUp size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1579621970588-a35d0e7ab9b6?w=600&q=80',
+    tag: 'Working Capital', category: 'merchant', subCategory: '📈 Business Financial Tools',
+    color: 'from-emerald-600 to-green-700', path: '/services/instant-credit-support',
+  },
+
+  // ══════════════════════════════════════════════
+  // 8. DAILY LIFESTYLE SERVICES
+  // ══════════════════════════════════════════════
+
+  // 🍔 Food & Essentials
+  {
+    title: 'Food Delivery',
+    description: 'Order hot meals from top-rated local restaurants and cloud kitchens with a 30-minute guaranteed delivery.',
+    icon: <Utensils size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80',
+    tag: '30 Min Delivery', category: 'lifestyle', subCategory: '🍔 Food & Essentials',
+    color: 'from-orange-500 to-red-500', path: '/services/food-delivery',
+  },
+  {
+    title: 'Kitchen Partner Services',
+    description: 'Partner with Fiinway as a cloud kitchen — get orders, manage inventory, and process payments all in one place.',
+    icon: <ChefHat size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&q=80',
+    tag: 'Cloud Kitchen', category: 'lifestyle', subCategory: '🍔 Food & Essentials',
+    color: 'from-red-600 to-orange-700', path: '/services/kitchen-partner-lifestyle',
+  },
+
+  // 📱 Everyday Utilities
+  {
+    title: 'Recharge',
+    description: 'Top-up mobile, DTH, and data cards instantly for any operator or provider — with cashback on every recharge.',
+    icon: <RefreshCcw size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80',
+    tag: 'Instant Top-Up', category: 'lifestyle', subCategory: '📱 Everyday Utilities',
+    color: 'from-cyan-500 to-sky-600', path: '/services/recharge',
+  },
+  {
+    title: 'Bill Payments',
+    description: 'Manage and pay all your monthly bills — electricity, gas, water, insurance — from a single organized dashboard.',
+    icon: <ReceiptText size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=80',
+    tag: 'All Bills', category: 'lifestyle', subCategory: '📱 Everyday Utilities',
+    color: 'from-teal-500 to-green-600', path: '/services/bill-payments',
+  },
+  {
+    title: 'Cashback Rewards',
+    description: 'Earn and redeem Fiinway Points on every daily spend — groceries, rides, dining, and utilities — every single day.',
+    icon: <BadgePercent size={20} />,
+    imageUrl: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&q=80',
+    tag: 'Daily Rewards', category: 'lifestyle', subCategory: '📱 Everyday Utilities',
+    color: 'from-violet-500 to-indigo-600', path: '/services/cashback-rewards',
   },
 ];
 
+/* ─────────────────────────────────────────────────
+   TABS & META
+───────────────────────────────────────────────── */
 const tabs: { id: Category; label: string; emoji: string }[] = [
-  { id: 'all',        label: 'All Services',       emoji: '✦' },
-  { id: 'financial',  label: 'Financial Hub',       emoji: '💳' },
-  { id: 'transport',  label: 'Rides & Transport',   emoji: '🚕' },
-  { id: 'travel',     label: 'Travel & Stays',      emoji: '✈️' },
-  { id: 'food',       label: 'Food & Delivery',     emoji: '🍔' },
-  { id: 'healthcare', label: 'Healthcare',           emoji: '🏥' },
-  { id: 'shopping',   label: 'Shopping & Campus',   emoji: '🛍️' },
-  { id: 'utilities',  label: 'Utilities & Green',   emoji: '⚡' },
-  { id: 'enterprise', label: 'Enterprise',           emoji: '🏢' },
+  { id: 'financial',  label: 'Financial & Credit',          emoji: '💳' },
+  { id: 'payment',    label: 'Payment & Banking',           emoji: '💰' },
+  { id: 'healthcare', label: 'Healthcare & Medical',        emoji: '🏥' },
+  { id: 'ecommerce',  label: 'E-Commerce & Marketplace',   emoji: '🛒' },
+  { id: 'travel',     label: 'Travel & Transport',          emoji: '✈️' },
+  { id: 'student',    label: 'Student & Education',         emoji: '🎓' },
+  { id: 'merchant',   label: 'Merchant & Business',         emoji: '🏪' },
+  { id: 'lifestyle',  label: 'Daily Lifestyle',             emoji: '🍔' },
 ];
 
 const categoryMeta: Record<Category, { title: string; subtitle: string; gradient: string }> = {
-  all:        { title: 'Everything in One Place',      subtitle: 'While competitors have a different app for each service, Finway unifies all 30+ into one.', gradient: 'from-indigo-600 via-purple-600 to-pink-500' },
-  financial:  { title: 'Financial Hub',                subtitle: 'Credit lines, loans, cards, cashbacks, and savings — your complete financial toolkit.', gradient: 'from-indigo-600 to-purple-600' },
-  transport:  { title: 'Rides & Transport',            subtitle: 'City cabs, bike rides, shared pools, and outstation logistics — all in one tap.', gradient: 'from-yellow-500 to-orange-600' },
-  travel:     { title: 'Travel & Stays',               subtitle: 'Flights, hotels, and outstation trips booked seamlessly without leaving the app.', gradient: 'from-sky-500 to-blue-600' },
-  food:       { title: 'Food & Delivery',              subtitle: 'Hot meals from top restaurants delivered to your door in 30 minutes.', gradient: 'from-orange-500 to-red-500' },
-  healthcare: { title: 'Healthcare',                   subtitle: 'From pharmacy cashbacks to medical credit cards — stay covered, always.', gradient: 'from-rose-500 to-pink-600' },
-  shopping:   { title: 'Shopping & Campus',            subtitle: 'Marketplace for everyone and a dedicated campus store for students.', gradient: 'from-violet-500 to-purple-600' },
-  utilities:  { title: 'Utilities & Green',            subtitle: 'Pay bills, recharge plans, and earn green credits for eco-friendly choices.', gradient: 'from-green-500 to-teal-600' },
-  enterprise: { title: 'Enterprise Solutions',         subtitle: 'Payment gateways and B2B kitchen setups built to scale your business.', gradient: 'from-slate-600 to-indigo-800' },
+  financial:  { title: 'Financial & Credit Services',         subtitle: 'Credit lines, cards, loans, cashbacks, and savings — your complete financial toolkit in one app.', gradient: 'from-indigo-600 to-purple-600' },
+  payment:    { title: 'Payment & Banking Services',          subtitle: 'Transfer money, pay bills, recharge, and accept payments — all with zero friction.', gradient: 'from-blue-600 to-indigo-600' },
+  healthcare: { title: 'Healthcare & Medical Services',       subtitle: 'From pharmacy cashbacks to medical credit cards — stay covered for every health need.', gradient: 'from-rose-500 to-pink-600' },
+  ecommerce:  { title: 'E-Commerce & Marketplace',           subtitle: 'Shop new, sell old, and trade green — a full commerce ecosystem built inside Fiinway.', gradient: 'from-violet-500 to-purple-600' },
+  travel:     { title: 'Travel & Transport Services',         subtitle: 'Cab rides, bike shares, hotel bookings, and parcel logistics — all in one tab.', gradient: 'from-sky-500 to-blue-600' },
+  student:    { title: 'Student & Education Services',        subtitle: 'Cards, scholarships, cashbacks, and campus solutions designed exclusively for students.', gradient: 'from-teal-500 to-emerald-600' },
+  merchant:   { title: 'Merchant & Business Solutions',       subtitle: 'QR payments, business wallets, collection tools, and credit — built to grow your business.', gradient: 'from-slate-600 to-indigo-800' },
+  lifestyle:  { title: 'Daily Lifestyle Services',            subtitle: 'Food delivery, recharges, bill payments, and daily cashbacks — life made effortless.', gradient: 'from-orange-500 to-red-500' },
 };
 
+/* ─────────────────────────────────────────────────
+   COMPONENT
+───────────────────────────────────────────────── */
 export const ServiceCatalog: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<Category>('all');
+  const [activeCategory, setActiveCategory] = useState<Category>('financial');
 
-  const filteredServices = activeCategory === 'all'
-    ? allServices
-    : allServices.filter(s => s.category === activeCategory);
+  const filteredServices = allServices.filter(s => s.category === activeCategory);
+
+  // Group by subCategory preserving insertion order
+  const grouped = filteredServices.reduce<Record<string, ServiceItem[]>>((acc, s) => {
+    if (!acc[s.subCategory]) acc[s.subCategory] = [];
+    acc[s.subCategory].push(s);
+    return acc;
+  }, {});
 
   const meta = categoryMeta[activeCategory];
 
   return (
     <div className="w-full">
+
       {/* ── Filter Tabs ── */}
       <div className="sticky top-[76px] z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200/60 dark:border-slate-800/60">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex gap-1 overflow-x-auto py-3 scrollbar-none">
             {tabs.map((tab) => {
               const isActive = activeCategory === tab.id;
+              const count = allServices.filter(s => s.category === tab.id).length;
               return (
                 <button
                   key={tab.id}
@@ -327,7 +655,7 @@ export const ServiceCatalog: React.FC = () => {
                   <span>{tab.label}</span>
                   {isActive && (
                     <span className="ml-1 px-1.5 py-0.5 rounded-md bg-white/20 text-[11px] font-bold">
-                      {filteredServices.length}
+                      {count}
                     </span>
                   )}
                 </button>
@@ -340,85 +668,94 @@ export const ServiceCatalog: React.FC = () => {
       {/* ── Category Header ── */}
       <AnimatePresence mode="wait">
         <motion.div
-          key={activeCategory}
+          key={activeCategory + '-header'}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.25 }}
-          className="container mx-auto px-4 md:px-6 pt-12 pb-8"
+          transition={{ duration: 0.2 }}
+          className="container mx-auto px-4 md:px-6 pt-12 pb-6"
         >
-          <div className={`inline-flex items-center gap-3 mb-3`}>
-            <span className={`text-3xl md:text-4xl font-extrabold bg-gradient-to-r ${meta.gradient} bg-clip-text text-transparent`}>
-              {meta.title}
-            </span>
-          </div>
-          <p className="text-slate-500 dark:text-slate-400 max-w-2xl">{meta.subtitle}</p>
+          <span className={`text-3xl md:text-4xl font-extrabold bg-gradient-to-r ${meta.gradient} bg-clip-text text-transparent`}>
+            {meta.title}
+          </span>
+          <p className="text-slate-500 dark:text-slate-400 max-w-2xl mt-2">{meta.subtitle}</p>
         </motion.div>
       </AnimatePresence>
 
-      {/* ── Service Grid ── */}
-      <div className="container mx-auto px-4 md:px-6 pb-24">
+      {/* ── Sub-Category Sections ── */}
+      <AnimatePresence mode="wait">
         <motion.div
-          layout
-          variants={staggerContainer}
-          initial="hidden"
-          animate="visible"
-          className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+          key={activeCategory + '-content'}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          className="container mx-auto px-4 md:px-6 pb-24 space-y-14"
         >
-          <AnimatePresence mode="popLayout">
-            {filteredServices.map((service) => (
+          {Object.entries(grouped).map(([subCat, services]) => (
+            <div key={subCat}>
+              {/* Sub-Category Header */}
+              <div className="flex items-center gap-3 mb-6">
+                <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">{subCat}</h3>
+                <div className="flex-1 h-px bg-gradient-to-r from-slate-200 dark:from-slate-700 to-transparent" />
+                <span className="text-xs font-semibold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full">
+                  {services.length} service{services.length > 1 ? 's' : ''}
+                </span>
+              </div>
+
+              {/* Cards Grid */}
               <motion.div
-                layout
-                key={service.title}
-                initial={{ opacity: 0, scale: 0.94 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.94 }}
-                transition={{ duration: 0.25 }}
-                className="group relative bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-40px' }}
+                className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
               >
-                {/* Image */}
-                <div className="relative h-40 overflow-hidden">
-                  <img
-                    src={service.imageUrl}
-                    alt={service.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-                  {/* Tag badge */}
-                  <span className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-black/50 backdrop-blur-md text-white text-[10px] font-bold tracking-wider uppercase">
-                    {service.tag}
-                  </span>
-                  {/* Icon bubble */}
-                  <div className={`absolute bottom-3 right-3 w-10 h-10 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center text-white shadow-lg`}>
-                    {service.icon}
-                  </div>
-                </div>
+                {services.map((service) => (
+                  <motion.div
+                    layout
+                    key={service.title + service.subCategory}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.25 }}
+                    className="group relative bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+                  >
+                    {/* Image */}
+                    <div className="relative h-36 overflow-hidden">
+                      <img
+                        src={service.imageUrl}
+                        alt={service.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                      <span className="absolute top-3 left-3 px-2 py-1 rounded-lg bg-black/50 backdrop-blur-md text-white text-[10px] font-bold tracking-wider uppercase">
+                        {service.tag}
+                      </span>
+                      <div className={`absolute bottom-3 right-3 w-9 h-9 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center text-white shadow-lg`}>
+                        {service.icon}
+                      </div>
+                    </div>
 
-                {/* Body */}
-                <div className="p-5">
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1.5 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                    {service.title}
-                  </h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">
-                    {service.description}
-                  </p>
-                </div>
+                    {/* Body */}
+                    <div className="p-4">
+                      <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-1.5 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors leading-snug">
+                        {service.title}
+                      </h4>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">
+                        {service.description}
+                      </p>
+                    </div>
 
-                {/* Bottom accent line */}
-                <div className={`h-0.5 w-0 group-hover:w-full bg-gradient-to-r ${service.color} transition-all duration-500 ease-out`} />
+                    {/* Accent line on hover */}
+                    <div className={`h-0.5 w-0 group-hover:w-full bg-gradient-to-r ${service.color} transition-all duration-500 ease-out`} />
+                  </motion.div>
+                ))}
               </motion.div>
-            ))}
-          </AnimatePresence>
+            </div>
+          ))}
         </motion.div>
-
-        {/* Empty state */}
-        {filteredServices.length === 0 && (
-          <div className="text-center py-24 text-slate-400">
-            <p className="text-6xl mb-4">🔍</p>
-            <p className="text-xl font-semibold">No services in this category</p>
-          </div>
-        )}
-      </div>
+      </AnimatePresence>
     </div>
   );
 };

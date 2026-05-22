@@ -15,31 +15,60 @@ export const Button: React.FC<ButtonProps> = ({
   className = '',
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center rounded-full font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none';
-  
-  const variants = {
-    primary: 'bg-primary text-white hover:bg-primary/90 focus:ring-primary shadow-lg shadow-primary/30',
-    secondary: 'bg-secondary text-white hover:bg-secondary/90 focus:ring-secondary shadow-lg shadow-secondary/30',
-    outline: 'border-2 border-primary text-primary hover:bg-primary/10 focus:ring-primary',
-    ghost: 'hover:bg-slate-100 text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 focus:ring-slate-500',
-  };
+  const baseStyles = 'inline-flex items-center justify-center rounded-full font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none';
 
   const sizes = {
-    sm: 'h-9 px-4 text-sm',
+    sm: 'h-9 px-5 text-sm',
     md: 'h-11 px-8 text-base',
     lg: 'h-14 px-10 text-lg',
   };
 
-  // Ensure Tailwind v4 gradient button style for premium look if primary
-  const primaryGradient = variant === 'primary' 
-    ? 'bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 border-0'
-    : variants[variant];
+  // Brand-themed variant styles
+  const variantStyles: Record<string, string> = {
+    // Saffron → Gold → Green gradient (mirrors the logo)
+    primary: [
+      'text-white border-0 shadow-lg',
+      'hover:shadow-xl hover:brightness-105',
+      'focus:ring-[#E94E24]',
+    ].join(' '),
+
+    // Outlined using saffron brand color
+    outline: [
+      'border-2 border-[#E94E24] text-[#E94E24]',
+      'hover:bg-[#E94E24]/10',
+      'dark:border-[#F3C326] dark:text-[#F3C326] dark:hover:bg-[#F3C326]/10',
+      'focus:ring-[#E94E24]',
+    ].join(' '),
+
+    // Green-accented secondary
+    secondary: [
+      'text-white border-0 shadow-md',
+      'focus:ring-[#69C281]',
+    ].join(' '),
+
+    ghost: 'hover:bg-slate-100 text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 focus:ring-slate-500',
+  };
+
+  const getStyle = () => {
+    if (variant === 'primary') {
+      return {
+        background: 'linear-gradient(135deg, #E94E24 0%, #F3C326 50%, #69C281 100%)',
+      };
+    }
+    if (variant === 'secondary') {
+      return {
+        background: 'linear-gradient(135deg, #69C281 0%, #4DA866 100%)',
+      };
+    }
+    return {};
+  };
 
   return (
     <motion.button
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      className={`${baseStyles} ${variant === 'primary' ? primaryGradient : variants[variant]} ${sizes[size]} ${className}`}
+      style={getStyle()}
+      className={`${baseStyles} ${variantStyles[variant]} ${sizes[size]} ${className}`}
       {...props}
     >
       {children}
