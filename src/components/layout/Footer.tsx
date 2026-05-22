@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, Lock, UserCheck, Shield, CheckCircle } from 'lucide-react';
 import { FaTwitter, FaLinkedin, FaInstagram, FaFacebook, FaYoutube, FaApple, FaGooglePlay } from 'react-icons/fa';
-import logo from '../../../public/favicon.svg';
+import logo from '../../../public/logo1.png';
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();

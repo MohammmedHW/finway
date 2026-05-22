@@ -5,7 +5,7 @@ import { Menu, X, ChevronDown, Moon, Sun } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { useTheme } from '../../context/ThemeContext';
 
-import logo from '../../../public/favicon.svg';
+import logo from '../../../public/logo1.png';
 
 export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
