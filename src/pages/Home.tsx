@@ -300,7 +300,7 @@ export const Home: React.FC = () => {
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { title: 'Food Delivery', img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80', tag: '30 min delivery', icon: <Utensils size={18} /> },
-              { title: 'Marketplace', img: 'https://images.unsplash.com/photo-1472851294608-062f824d296e?w=600&q=80', tag: 'All-in-one store', icon: <ShoppingCart size={18} /> },
+              { title: 'Marketplace', img: 'https://assets.torryharrisproducts.com/home/blogs/online-marketplace/banner.png', tag: 'All-in-one store', icon: <ShoppingCart size={18} /> },
               { title: 'Recharge and Bills', img: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80', tag: 'Utility Pay', icon: <Smartphone size={18} /> },
               { title: 'Transport Pick and Drop', img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80', tag: 'Instant Pickup', icon: <Truck size={18} /> },
             ].map((item, i) => (
@@ -565,7 +565,7 @@ export const Home: React.FC = () => {
 
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} className="grid md:grid-cols-3 gap-6">
             {[
-              { title: 'Travel Booking', desc: 'Plan entire itineraries, book flights, and reserve train tickets seamlessly inside a single unified app.', icon: <Plane size={20} />, img: 'https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=600&q=80' },
+              { title: 'Travel Booking', desc: 'Plan entire itineraries, book flights, and reserve train tickets seamlessly inside a single unified app.', icon: <Plane size={20} />, img: 'https://travelbeetourism.com/images/flightticket.jpg?w=600&q=80' },
               { title: 'Hotels', desc: 'Book verified budget stays to luxury resorts with exclusive loyalty cashbacks in the same platform.', icon: <HomeIcon size={20} />, img: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80' },
               { title: 'Sharing Cab (Outstation)', desc: 'Book long-distance shared inter-city cabs for weekend travels at deeply discounted rates.', icon: <Globe size={20} />, img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80' },
             ].map((item, i) => (
