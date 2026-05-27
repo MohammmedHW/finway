@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 import {
   CreditCard, Wallet, Percent, Banknote, Coins, Briefcase, GraduationCap,
@@ -6,8 +6,23 @@ import {
   Plane, Hotel, Utensils, Store, ChefHat, Leaf, Smartphone, Car, Bike, Truck,
   Users, BookOpen, Globe, QrCode, Zap, Tv, Building2, Building, Cross,
   Pill, Package, Send, TrendingUp, Star, RefreshCcw, CircleDollarSign,
-  CalendarDays, ReceiptText, ShoppingBag, Repeat, BadgePercent, Landmark
+  CalendarDays, ReceiptText, ShoppingBag, Repeat, BadgePercent, Landmark, MousePointerClick
 } from 'lucide-react';
+
+// Custom hook for auto-rotating carousels
+function useAutoCarousel(length: number, intervalMs = 3000) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  
+  useEffect(() => {
+    if (length <= 1) return;
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % length);
+    }, intervalMs);
+    return () => clearInterval(timer);
+  }, [length, activeIndex]);
+
+  return [activeIndex, setActiveIndex] as const;
+}
 
 /* ─────────────────────────────────────────────────
    TYPES
@@ -352,14 +367,7 @@ const allServices: ServiceItem[] = [
     tag: 'For Students', category: 'ecommerce', subCategory: ' Campus Commerce',
     color: 'from-teal-500 to-cyan-600', path: '/services/student-essentials',
   },
-  {
-    title: 'Kitchen Partner Network',
-    description: 'B2B commercial kitchen setup, supply chain management, and bulk inventory purchasing for food entrepreneurs.',
-    icon: <ChefHat size={20} />,
-    imageUrl: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&q=80',
-    tag: 'Partner B2B', category: 'ecommerce', subCategory: ' Campus Commerce',
-    color: 'from-orange-600 to-red-700', path: '/services/kitchen-partner',
-  },
+  
 
   // ══════════════════════════════════════════════
   // 5. TRAVEL & TRANSPORT SERVICES
@@ -785,7 +793,7 @@ const FinancialLayout = ({ grouped }: { grouped: Record<string, ServiceItem[]> }
 // 2. Payment & Banking (The "Money Flow" Live Phone Mockup)
 const PaymentLayout = ({ grouped }: { grouped: Record<string, ServiceItem[]> }) => {
   const services = Object.values(grouped).flat();
-  const [activeIndex, setActiveIndex] = React.useState(0);
+  const [activeIndex, setActiveIndex] = useAutoCarousel(services.length, 3500);
   const activeService = services[activeIndex] || services[0];
 
   return (
@@ -1016,7 +1024,7 @@ const HealthcareLayout = ({ grouped }: { grouped: Record<string, ServiceItem[]> 
               layout
               transition={{ type: "spring", stiffness: 200, damping: 20 }}
               className={`p-6 rounded-[2.5rem] bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl border transition-all duration-300 cursor-pointer shadow-xl ${isExpanded ? 'border-rose-500 dark:border-rose-500 md:col-span-2' : 'border-slate-200/50 dark:border-slate-800/85 hover:border-slate-350 dark:hover:border-slate-700'}`}
-              onClick={() => setExpandedIdx(isExpanded ? null : idx)}
+              onClick={() => setExpandedIdx(idx)}
             >
               <div className="flex flex-col sm:flex-row gap-5 items-start">
                 {/* Glowing Pulsing Icon Container */}
@@ -1095,97 +1103,83 @@ const HealthcareLayout = ({ grouped }: { grouped: Record<string, ServiceItem[]> 
   );
 };
 
-// 4. Ecommerce & Marketplace (3D "Unboxing" Product Showcase)
-const EcommerceLayout = ({ grouped }: { grouped: Record<string, ServiceItem[]> }) => {
-  const services = Object.values(grouped).flat();
+// 4a. Ecommerce Card — extracted so hooks are NOT called inside a .map() callback
+const EcommerceCard = ({ service }: { service: ServiceItem }) => {
+  // These hooks are now safely at the top level of a component, not inside .map()
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useTransform(y, [-100, 100], [10, -10]);
+  const rotateY = useTransform(x, [-100, 100], [-10, 10]);
+
+  function handleMouse(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    const rect = event.currentTarget.getBoundingClientRect();
+    x.set(event.clientX - rect.left - rect.width / 2);
+    y.set(event.clientY - rect.top - rect.height / 2);
+  }
+
+  function handleMouseLeave() {
+    x.set(0);
+    y.set(0);
+  }
 
   return (
+    <motion.div
+      onMouseMove={handleMouse}
+      onMouseLeave={handleMouseLeave}
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d", perspective: 800 }}
+      whileHover={{ y: -8 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      className="group relative rounded-[2.5rem] bg-slate-900 border border-slate-800 shadow-2xl h-[360px] flex flex-col justify-between overflow-hidden cursor-pointer"
+    >
+      {/* Background Image Showcase */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src={service.imageUrl}
+          alt={service.title}
+          className="w-full h-full object-cover transition-all duration-700 opacity-30 group-hover:opacity-40 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent" />
+      </div>
+
+      {/* Custom 3D "Unboxing" Top Flap Effect */}
+      <div className="absolute top-0 inset-x-0 h-4 bg-gradient-to-b from-white/10 to-transparent group-hover:h-8 transition-all duration-300 border-b border-white/5 z-20 pointer-events-none" />
+
+      {/* Floating Price Tag */}
+      <div className="absolute top-5 right-5 z-20" style={{ transform: "translateZ(30px)" }}>
+        <span className={`px-4 py-1.5 rounded-full text-xs font-black uppercase text-white shadow-lg bg-gradient-to-r ${service.color} border border-white/20`}>
+          {service.tag}
+        </span>
+      </div>
+
+      {/* Card Content */}
+      <div className="relative z-10 p-7 flex flex-col justify-between h-full text-left" style={{ transform: "translateZ(20px)" }}>
+        <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color} text-white flex items-center justify-center shadow-xl border border-white/10 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6`}>
+          {React.cloneElement(service.icon as React.ReactElement<any>, { size: 24 })}
+        </div>
+
+        <div className="space-y-3">
+          <h4 className="text-2xl font-black text-white leading-tight">{service.title}</h4>
+          <p className="text-sm text-slate-350 leading-relaxed line-clamp-3 group-hover:text-slate-100 transition-colors">
+            {service.description}
+          </p>
+          <div className="flex gap-3 pt-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+            <span className="px-3 py-1 rounded-lg bg-white/10 text-white border border-white/10 text-[10px] font-bold">100% Secure</span>
+            <span className="px-3 py-1 rounded-lg bg-white/10 text-white border border-white/10 text-[10px] font-bold">Easy Return</span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+// 4b. Ecommerce & Marketplace layout — uses EcommerceCard so hooks follow Rules of Hooks
+const EcommerceLayout = ({ grouped }: { grouped: Record<string, ServiceItem[]> }) => {
+  const services = Object.values(grouped).flat();
+  return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 text-left">
-      {services.map((service) => {
-        // Isometric mouse/card tilt motion values
-        const x = useMotionValue(0);
-        const y = useMotionValue(0);
-
-        // Map mouse movements into degrees of rotations
-        const rotateX = useTransform(y, [-100, 100], [10, -10]);
-        const rotateY = useTransform(x, [-100, 100], [-10, 10]);
-
-        function handleMouse(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-          const rect = event.currentTarget.getBoundingClientRect();
-          const width = rect.width;
-          const height = rect.height;
-          const mouseX = event.clientX - rect.left - width / 2;
-          const mouseY = event.clientY - rect.top - height / 2;
-          x.set(mouseX);
-          y.set(mouseY);
-        }
-
-        function handleMouseLeave() {
-          x.set(0);
-          y.set(0);
-        }
-
-        return (
-          <motion.div
-            key={service.title}
-            onMouseMove={handleMouse}
-            onMouseLeave={handleMouseLeave}
-            style={{ rotateX, rotateY, transformStyle: "preserve-3d", perspective: 800 }}
-            whileHover={{ y: -8 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="group relative rounded-[2.5rem] bg-slate-900 border border-slate-800 shadow-2xl h-[360px] flex flex-col justify-between overflow-hidden cursor-pointer"
-          >
-            {/* Background Image Showcase */}
-            <div className="absolute inset-0 z-0">
-              <img
-                src={service.imageUrl}
-                alt={service.title}
-                className="w-full h-full object-cover opacity-30 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent" />
-            </div>
-
-            {/* Custom 3D "Unboxing" Top Flap Effect */}
-            <div className="absolute top-0 inset-x-0 h-4 bg-gradient-to-b from-white/10 to-transparent group-hover:h-8 transition-all duration-300 border-b border-white/5 z-20 pointer-events-none" />
-
-            {/* Floating Price Tag/Tagline */}
-            <div className="absolute top-5 right-5 z-20" style={{ transform: "translateZ(30px)" }}>
-              <span className={`px-4 py-1.5 rounded-full text-xs font-black uppercase text-white shadow-lg bg-gradient-to-r ${service.color} border border-white/20`}>
-                {service.tag}
-              </span>
-            </div>
-
-            {/* Card Content */}
-            <div className="relative z-10 p-7 flex flex-col justify-between h-full text-left" style={{ transform: "translateZ(20px)" }}>
-              {/* Product Box Icon Header */}
-              <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color} text-white flex items-center justify-center shadow-xl border border-white/10 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
-                {React.cloneElement(service.icon as React.ReactElement<any>, { size: 24 })}
-              </div>
-
-              {/* Box Content details springing on hover */}
-              <div className="space-y-3">
-                <h4 className="text-2xl font-black text-white leading-tight">
-                  {service.title}
-                </h4>
-                
-                <p className="text-sm text-slate-350 leading-relaxed line-clamp-3 group-hover:text-slate-100 transition-colors">
-                  {service.description}
-                </p>
-
-                {/* Micro unboxing flying buttons */}
-                <div className="flex gap-3 pt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-2 group-hover:translate-y-0 transform">
-                  <span className="px-3 py-1 rounded-lg bg-white/10 text-white border border-white/10 text-[10px] font-bold">
-                    100% Secure
-                  </span>
-                  <span className="px-3 py-1 rounded-lg bg-white/10 text-white border border-white/10 text-[10px] font-bold">
-                    Easy Return
-                  </span>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        );
-      })}
+      {services.map((service) => (
+        <EcommerceCard key={service.title} service={service} />
+      ))}
     </div>
   );
 };
@@ -1193,7 +1187,7 @@ const EcommerceLayout = ({ grouped }: { grouped: Record<string, ServiceItem[]> }
 // 5. Travel & Transport (The "Wanderlust" SVG Route Tracker)
 const TravelLayout = ({ grouped }: { grouped: Record<string, ServiceItem[]> }) => {
   const services = Object.values(grouped).flat();
-  const [activeIdx, setActiveIdx] = React.useState(0);
+  const [activeIdx, setActiveIdx] = useAutoCarousel(services.length, 4500);
   const activeService = services[activeIdx] || services[0];
 
   // Map each service to an SVG path coordinate along our custom route map
@@ -1209,163 +1203,186 @@ const TravelLayout = ({ grouped }: { grouped: Record<string, ServiceItem[]> }) =
     { x: 980, y: 60 }
   ];
 
-  return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mt-8 relative text-left">
+ return (
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mt-8 relative text-left antialiased">
+      
       {/* Left side: Custom travel route tracking visual */}
-      <div className="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-[2.5rem] p-6 md:p-8 flex flex-col justify-center items-center overflow-hidden min-h-[380px] relative">
-        <div className="absolute top-6 left-6 text-xs uppercase font-extrabold tracking-widest text-sky-400 z-10">
-          Wanderlust Map Route
+      <div className="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-[2.5rem] p-4 md:p-8 flex flex-col justify-center items-center overflow-hidden min-h-[450px] md:min-h-[500px] relative">
+        
+        <div className="absolute top-6 left-6 text-sm uppercase font-extrabold tracking-widest text-sky-400 z-10 flex items-center gap-2">
+          <MousePointerClick size={18} className="animate-pulse" /> Interactive Map Route
+        </div>
+
+        {/* Informative pulsing text so users know to click */}
+        <div className="absolute top-6 right-6 z-10 hidden sm:flex items-center gap-2">
+          <span className="animate-pulse w-2 h-2 rounded-full bg-sky-400"></span>
+          <span className="text-xs text-slate-400 font-bold uppercase tracking-widest">Click on map nodes</span>
         </div>
 
         {/* Abstract Sky background */}
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-sky-500/20 blur-[100px] rounded-full pointer-events-none" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-500/20 blur-[100px] rounded-full pointer-events-none" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-sky-500/10 blur-[100px] rounded-full pointer-events-none" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-500/10 blur-[100px] rounded-full pointer-events-none" />
 
         {/* Animated glowing SVG map */}
-        <div className="relative w-full max-w-[620px] aspect-[16/9] z-10 flex items-center justify-center p-4">
-          <svg viewBox="0 0 1000 150" className="w-full h-full overflow-visible">
-            {/* The dotted track route */}
-            <motion.path
+        <div className="relative w-full h-full min-h-[350px] z-10 flex items-center justify-center p-2">
+          <svg viewBox="0 0 1000 200" className="w-full h-full max-h-[400px] overflow-visible">
+            
+            {/* Base Background Track Route */}
+            <path
               d="M 50 70 Q 180 30 320 110 T 580 90 T 860 110 T 980 60"
               fill="none"
               stroke="#1e293b"
-              strokeWidth="6"
+              strokeWidth="8"
               strokeLinecap="round"
             />
             
+            {/* Animated Front Dashed Line Route */}
             <motion.path
               d="M 50 70 Q 180 30 320 110 T 580 90 T 860 110 T 980 60"
               fill="none"
               stroke="#38bdf8"
-              strokeWidth="2.5"
+              strokeWidth="3"
               strokeLinecap="round"
-              strokeDasharray="6 6"
+              strokeDasharray="12 8"
+              animate={{ strokeDashoffset: [0, -40] }}
+              transition={{duration: 4, repeat: Infinity }}
             />
 
-            {/* Glowing route nodes */}
+            {/* Map Nodes Layer */}
             {services.map((service, idx) => {
               const node = nodes[idx] || { x: 50, y: 70 };
               const isActive = idx === activeIdx;
 
               return (
                 <g key={service.title} className="cursor-pointer" onClick={() => setActiveIdx(idx)}>
-                  <motion.circle
+                  
+                  {/* Dynamic Base Interactive Node Circle */}
+                  <circle
                     cx={node.x}
                     cy={node.y}
-                    r={isActive ? 16 : 8}
-                    fill={isActive ? "#38bdf8" : "#1e293b"}
-                    stroke={isActive ? "rgba(56,189,248,0.3)" : "rgba(255,255,255,0.1)"}
-                    strokeWidth={isActive ? 10 : 2}
+                    r={isActive ? 18 : 9}
+                    fill={isActive ? "transparent" : "#1e293b"}
+                    stroke={isActive ? "transparent" : "rgba(255,255,255,0.2)"}
+                    strokeWidth={2}
                     className="transition-all duration-300"
                   />
-                  {isActive && (
-                    <motion.circle
-                      cx={node.x}
-                      cy={node.y}
-                      r="20"
-                      fill="none"
-                      stroke="#38bdf8"
-                      strokeWidth="1.5"
-                      animate={{ scale: [1, 1.4, 1], opacity: [0.6, 0, 0.6] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                  )}
-                  {/* Micro node label */}
+
+                  {/* High Visibility Dynamic Station Text Labels */}
                   <text
                     x={node.x}
-                    y={node.y - 25}
+                    y={node.y}
                     textAnchor="middle"
                     fill={isActive ? "#38bdf8" : "#94a3b8"}
-                    className="text-[14px] font-mono font-bold tracking-tight select-none"
+                    className={`text-xl md:text-2xl font-sans font-black tracking-tight select-none transition-all duration-300 ${
+                      isActive 
+                        ? 'drop-shadow-[0_0_12px_rgba(56,189,248,0.7)] -translate-y-9 font-black' 
+                        : '-translate-y-7 opacity-70 hover:opacity-100 font-bold'
+                    }`}
                   >
                     {service.title.split(' ')[0]}
                   </text>
+                 
                 </g>
               );
             })}
 
-            {/* The active transport vehicle following along the path to the selected index */}
+            {/* Unified Active Passenger Transport Hub Node (Fixed Double Pointer overlap) */}
             <motion.g
               animate={{
-                x: (nodes[activeIdx] || { x: 50 }).x - 12,
-                y: (nodes[activeIdx] || { y: 70 }).y - 12
+                x: (nodes[activeIdx] || { x: 50 }).x,
+                y: (nodes[activeIdx] || { y: 70 }).y
               }}
-              transition={{ type: "spring", stiffness: 100, damping: 15 }}
+              transition={{ type: "spring", stiffness: 120, damping: 14 }}
             >
-              <circle r="12" fill="#38bdf8" className="shadow-2xl shadow-sky-400" />
-              {activeService.title.includes('Flight') || activeService.title.includes('Plane') || activeService.title.includes('Ticket') ? (
-                <Plane size={14} className="text-slate-900 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-45" />
-              ) : activeService.title.includes('Cab') || activeService.title.includes('Car') ? (
-                <Car size={14} className="text-slate-900 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-              ) : activeService.title.includes('Bike') ? (
-                <Bike size={14} className="text-slate-900 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-              ) : (
-                <Truck size={14} className="text-slate-900 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-              )}
+              {/* Radial Animated Wave Ring */}
+              <motion.circle
+                r="26"
+                fill="none"
+                stroke="#38bdf8"
+                strokeWidth="2"
+                animate={{ scale: [0.9, 1.4, 0.9], opacity: [0.5, 0, 0.5] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              />
+              
+              {/* High Brightness Inner Solid Focal Base Anchor */}
+              <circle r="16" fill="#38bdf8" className="drop-shadow-[0_0_10px_rgba(56,189,248,0.8)]" />
+
+              {/* Icon Renderer inside Core Active Node Pointer */}
+              <g className="text-slate-950 stroke-[2.5]">
+                {activeService.title.includes('Flight') || activeService.title.includes('Plane') || activeService.title.includes('Ticket') ? (
+                  <g transform="translate(-8, -8)"><Plane size={16} className="rotate-45 text-slate-950" /></g>
+                ) : activeService.title.includes('Cab') || activeService.title.includes('Car') ? (
+                  <g transform="translate(-8, -8)"><Car size={16} className="text-slate-950" /></g>
+                ) : activeService.title.includes('Bike') ? (
+                  <g transform="translate(-8, -8)"><Bike size={16} className="text-slate-950" /></g>
+                ) : (
+                  <g transform="translate(-8, -8)"><Truck size={16} className="text-slate-950" /></g>
+                )}
+              </g>
             </motion.g>
+
           </svg>
         </div>
 
         {/* Path Tracker instruction */}
         <p className="text-xs text-slate-500 mt-4 text-center">
-          Tap the nodes on the map or select a service card below to animate the traveler along the path
+          Tap nodes directly on the chart map timeline or use options to trace destinations across the network.
         </p>
       </div>
 
-      {/* Right side: Premium ticket styled detail card & simple swiper */}
+      {/* Right side: Premium ticket styled detail card */}
       <div className="lg:col-span-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[2.5rem] p-6 sm:p-8 flex flex-col justify-between shadow-2xl relative overflow-hidden">
-        {/* Ticket Top & Bottom semi-circle cutouts (Classic flight boarding pass style) */}
+        {/* Pass Cutouts */}
         <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-slate-50 dark:bg-[#0B1120] border-r border-slate-200 dark:border-slate-800/80 z-20 pointer-events-none" />
         <div className="absolute -right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-slate-50 dark:bg-[#0B1120] border-l border-slate-200 dark:border-slate-800/80 z-20 pointer-events-none" />
         
-        {/* Glowing aura */}
-        <div className={`absolute -right-20 -top-20 w-48 h-48 bg-gradient-to-br ${activeService.color} opacity-20 blur-3xl rounded-full pointer-events-none`} />
+        {/* Glow backdrop styling */}
+        <div className={`absolute -right-20 -top-20 w-48 h-48 bg-gradient-to-br ${activeService.color || 'from-sky-500 to-indigo-500'} opacity-10 dark:opacity-20 blur-3xl rounded-full pointer-events-none`} />
 
         <div className="space-y-6">
           <div className="flex justify-between items-center">
-            <span className={`px-3 py-1 rounded-full text-xs font-black uppercase text-white bg-gradient-to-r ${activeService.color} tracking-widest`}>
+            <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase text-white bg-gradient-to-r ${activeService.color || 'from-sky-500 to-indigo-500'} tracking-widest`}>
               {activeService.tag}
             </span>
-            <div className="text-xs font-bold text-slate-400 font-mono">
+            <div className="text-xs font-bold text-slate-400 font-mono tracking-wider">
               BOARDING PASS
             </div>
           </div>
 
           <div className="flex gap-4 items-center">
-            <div className={`p-3.5 rounded-2xl bg-gradient-to-br ${activeService.color} text-white shadow-xl`}>
-              {React.cloneElement(activeService.icon as React.ReactElement<any>, { size: 24 })}
+            <div className={`p-3.5 rounded-2xl bg-gradient-to-br ${activeService.color || 'from-sky-500 to-indigo-500'} text-white shadow-xl flex-shrink-0`}>
+              {activeService.icon}
             </div>
             <div className="text-left">
-              <h4 className="text-2xl font-black text-slate-950 dark:text-white leading-tight">
+              <h4 className="text-2xl font-black text-slate-950 dark:text-white leading-tight tracking-tight">
                 {activeService.title}
               </h4>
-              <p className="text-xs text-slate-450 font-semibold mt-1">
-                {activeService.subCategory}
+              <p className="text-xs text-slate-400 font-semibold mt-1">
+                {activeService.subCategory || 'Standard Route Transit'}
               </p>
             </div>
           </div>
 
-          <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed text-left">
+          <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed text-left font-medium">
             {activeService.description}
           </p>
 
-          {/* Dotted divisor representing tearing ticket line */}
-          <div className="border-t border-dashed border-slate-200 dark:border-slate-850 my-6" />
+          <div className="border-t border-dashed border-slate-200 dark:border-slate-800 my-6" />
 
-          {/* Simulated Ticket Details */}
+          {/* Ticket Information Elements */}
           <div className="grid grid-cols-2 gap-4 text-xs font-mono text-left">
             <div>
-              <div className="text-slate-400 font-extrabold uppercase text-[10px]">ROUTE</div>
-              <div className="text-slate-805 dark:text-slate-100 font-black mt-1 uppercase">FIINWAY P2P</div>
+              <div className="text-slate-400 font-extrabold uppercase text-[10px]">ROUTE NETWORK</div>
+              <div className="text-slate-800 dark:text-slate-100 font-black mt-1 uppercase">FIINWAY P2P LINK</div>
             </div>
             <div>
-              <div className="text-slate-400 font-extrabold uppercase text-[10px]">GATEWAY</div>
-              <div className="text-slate-805 dark:text-slate-100 font-black mt-1 uppercase">Instant Ticket</div>
+              <div className="text-slate-400 font-extrabold uppercase text-[10px]">GATEWAY DISPATCH</div>
+              <div className="text-slate-800 dark:text-slate-100 font-black mt-1 uppercase">Instant Pass</div>
             </div>
           </div>
         </div>
 
-        {/* Ticket bar code */}
+        {/* Barcode representation */}
         <div className="mt-8 flex flex-col items-center gap-2">
           <div className="h-10 w-full bg-[repeating-linear-gradient(90deg,transparent,transparent_2px,#475569_2px,#475569_4px,transparent_4px,transparent_8px,#475569_8px,#475569_14px)] opacity-40 dark:opacity-60 rounded" />
           <div className="text-[10px] text-slate-400 font-mono tracking-widest uppercase">
@@ -1373,13 +1390,14 @@ const TravelLayout = ({ grouped }: { grouped: Record<string, ServiceItem[]> }) =
           </div>
         </div>
 
-        {/* Micro slider buttons for mobile screens */}
+        {/* Mobile Page Controls */}
         <div className="flex gap-2 justify-center mt-6 lg:hidden">
           {services.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setActiveIdx(idx)}
               className={`h-2 rounded-full transition-all duration-300 ${idx === activeIdx ? 'w-6 bg-sky-500' : 'w-2 bg-slate-300 dark:bg-slate-700'}`}
+              aria-label={`Go to route slide ${idx + 1}`}
             />
           ))}
         </div>
@@ -1391,7 +1409,14 @@ const TravelLayout = ({ grouped }: { grouped: Record<string, ServiceItem[]> }) =
 // 6. Student & Education (The "Notebook" Polaroid Flipboard)
 const StudentLayout = ({ grouped }: { grouped: Record<string, ServiceItem[]> }) => {
   const services = Object.values(grouped).flat();
+  const [activeIdx, setActiveIdx] = React.useState(0);
+  
+  // Track flipped cards, auto flip the active one
   const [flippedCards, setFlippedCards] = React.useState<Record<number, boolean>>({});
+
+  React.useEffect(() => {
+    setFlippedCards({ [activeIdx]: true });
+  }, [activeIdx]);
 
   const toggleFlip = (idx: number) => {
     setFlippedCards((prev) => ({
@@ -1414,12 +1439,15 @@ const StudentLayout = ({ grouped }: { grouped: Record<string, ServiceItem[]> }) 
           const randomTilt = ((idx % 3) - 1) * 2; // -2deg, 0deg, 2deg
 
           return (
-            <div
-              key={service.title}
-              className="relative w-full h-[380px] cursor-pointer"
-              style={{ perspective: 1000 }}
-              onClick={() => toggleFlip(idx)}
-            >
+              <div
+                key={service.title}
+                className="relative w-full h-[380px] cursor-pointer"
+                style={{ perspective: 1000 }}
+                onClick={() => {
+                  setActiveIdx(idx);
+                  toggleFlip(idx);
+                }}
+              >
               {/* Inner card with 3D Flip capability */}
               <motion.div
                 animate={{ rotateY: isFlipped ? 180 : 0, rotateZ: isFlipped ? 0 : randomTilt }}
@@ -1642,78 +1670,83 @@ const MerchantLayout = ({ grouped }: { grouped: Record<string, ServiceItem[]> })
   );
 };
 
-// 8. Lifestyle (The "Wheel of Convenience" Clock Layout)
+/* 8. Lifestyle (Day-Wheel Interactive Layout) */
 const LifestyleLayout = ({ grouped }: { grouped: Record<string, ServiceItem[]> }) => {
-  const services = Object.values(grouped).flat();
-  const [activeSegment, setActiveSegment] = React.useState<'morning' | 'afternoon' | 'evening' | 'night'>('morning');
+  // Extract only lifestyle services
+  const services = Object.values(grouped).flat().filter((s) => s.category === 'lifestyle');
 
-  // Filter services into time of day segments
-  const segmentedServices = React.useMemo(() => {
-    return {
-      morning: services.filter((s) => s.title.includes('Food') || s.title.includes('Kitchen')),
-      afternoon: services.filter((s) => s.title.includes('Recharge')),
-      evening: services.filter((s) => s.title.includes('Bill') || s.title.includes('Payments')),
-      night: services.filter((s) => s.title.includes('Cashback') || s.title.includes('Rewards'))
-    };
-  }, [services]);
+  const segments = ['morning', 'afternoon', 'evening', 'night'] as const;
+  const [segmentIdx, setSegmentIdx] = useAutoCarousel(segments.length, 5000);
+  const activeSegment = segments[segmentIdx];
+
+  const setActiveSegment = (seg: 'morning' | 'afternoon' | 'evening' | 'night') => {
+    setSegmentIdx(segments.indexOf(seg));
+  };
+
+  // Filter services into time-of-day segments
+  const segmentedServices = React.useMemo(() => ({
+    morning:   services.filter((s) => s.title.includes('Food')     || s.title.includes('Kitchen')),
+    afternoon: services.filter((s) => s.title.includes('Recharge')),
+    evening:   services.filter((s) => s.title.includes('Bill')     || s.title.includes('Payments')),
+    night:     services.filter((s) => s.title.includes('Cashback') || s.title.includes('Rewards')),
+  }), [services]);
 
   const activeServices = segmentedServices[activeSegment] || segmentedServices.morning;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mt-8 text-left">
-      {/* Left side: Beautiful clock layout wheel selection */}
+      {/* Left side: Clock / day-wheel selector */}
       <div className="lg:col-span-5 flex flex-col justify-center items-center py-6">
         <div className="relative w-72 h-72 rounded-full border-4 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl flex items-center justify-center p-4">
-          
-          {/* Glowing central core */}
+
+          {/* Central core */}
           <div className="w-14 h-14 rounded-full bg-slate-900 text-white flex items-center justify-center shadow-lg relative z-20 font-black text-xs">
             DAY
           </div>
 
-          {/* Morning segment slice */}
+          {/* Morning */}
           <button
             onClick={() => setActiveSegment('morning')}
-            className={`absolute top-4 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center z-10 transition-all ${activeSegment === 'morning' ? 'scale-110 text-orange-500 font-bold' : 'text-slate-400 hover:text-slate-650'}`}
+            className={`absolute top-4 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center z-10 transition-all ${activeSegment === 'morning' ? 'scale-110 text-orange-500 font-bold' : 'text-slate-400 hover:text-slate-600'}`}
           >
             <span className="text-xl font-bold">🌅</span>
             <span className="text-[10px] font-extrabold uppercase mt-1">Morning</span>
           </button>
 
-          {/* Afternoon segment slice */}
+          {/* Afternoon */}
           <button
             onClick={() => setActiveSegment('afternoon')}
-            className={`absolute right-4 top-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-10 transition-all ${activeSegment === 'afternoon' ? 'scale-110 text-yellow-500 font-bold' : 'text-slate-400 hover:text-slate-650'}`}
+            className={`absolute right-4 top-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-10 transition-all ${activeSegment === 'afternoon' ? 'scale-110 text-yellow-500 font-bold' : 'text-slate-400 hover:text-slate-600'}`}
           >
             <span className="text-xl font-bold">☀️</span>
             <span className="text-[10px] font-extrabold uppercase mt-1">Afternoon</span>
           </button>
 
-          {/* Evening segment slice */}
+          {/* Evening */}
           <button
             onClick={() => setActiveSegment('evening')}
-            className={`absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center z-10 transition-all ${activeSegment === 'evening' ? 'scale-110 text-indigo-500 font-bold' : 'text-slate-400 hover:text-slate-650'}`}
+            className={`absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center z-10 transition-all ${activeSegment === 'evening' ? 'scale-110 text-indigo-500 font-bold' : 'text-slate-400 hover:text-slate-600'}`}
           >
             <span className="text-xl font-bold">🌆</span>
             <span className="text-[10px] font-extrabold uppercase mt-1">Evening</span>
           </button>
 
-          {/* Night segment slice */}
+          {/* Night */}
           <button
             onClick={() => setActiveSegment('night')}
-            className={`absolute left-4 top-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-10 transition-all ${activeSegment === 'night' ? 'scale-110 text-rose-500 font-bold' : 'text-slate-400 hover:text-slate-650'}`}
+            className={`absolute left-4 top-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-10 transition-all ${activeSegment === 'night' ? 'scale-110 text-rose-500 font-bold' : 'text-slate-400 hover:text-slate-600'}`}
           >
             <span className="text-xl font-bold">🌃</span>
             <span className="text-[10px] font-extrabold uppercase mt-1">Night</span>
           </button>
         </div>
 
-        {/* Clock instructions */}
         <p className="text-xs text-slate-500 mt-6 text-center">
           Click different slices of the day wheel to filter lifestyle services
         </p>
       </div>
 
-      {/* Right side: Active services listing with spring transitions */}
+      {/* Right side: Filtered service cards */}
       <div className="lg:col-span-7 flex flex-col gap-6 justify-center">
         <AnimatePresence mode="wait">
           <motion.div
@@ -1739,15 +1772,14 @@ const LifestyleLayout = ({ grouped }: { grouped: Record<string, ServiceItem[]> }
                       {service.tag}
                     </span>
                   </div>
-                  <h4 className="text-lg font-bold text-slate-955 dark:text-white leading-tight">
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white leading-tight">
                     {service.title}
                   </h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed text-left">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                     {service.description}
                   </p>
                 </div>
-                
-                <button className="text-xs font-bold text-slate-950 dark:text-white mt-4 inline-flex items-center gap-1 hover:opacity-85 text-left">
+                <button className="text-xs font-bold text-slate-950 dark:text-white mt-4 inline-flex items-center gap-1 hover:opacity-85">
                   Unlock now &rarr;
                 </button>
               </motion.div>
@@ -1764,13 +1796,18 @@ const LifestyleLayout = ({ grouped }: { grouped: Record<string, ServiceItem[]> }
 ───────────────────────────────────────────────── */
 export const ServiceCatalog: React.FC = () => {
   const orderedCategories: Category[] = [
+     'travel',
+      'ecommerce',
+      'merchant',
+      'payment',
+       'healthcare',
     'financial',
-    'payment',
-    'healthcare',
-    'ecommerce',
-    'travel',
+    
+   
+   
+   
     'student',
-    'merchant',
+    
     'lifestyle',
   ];
 
