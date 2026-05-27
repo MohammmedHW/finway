@@ -13,7 +13,7 @@ import { Button } from '../components/ui/Button';
 import { ServiceCatalog } from '../components/ServiceCatalog';
 import { ImageCard } from '../components/ui/ImageCard';
 import { ChartCard } from '../components/ui/ChartCard';
-import { fadeIn, staggerContainer, floatAnimation } from '../lib/animations';
+import { fadeIn, staggerContainer } from '../lib/animations';
 
 /* ───────────────────── data ───────────────────── */
 
